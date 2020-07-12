@@ -24,11 +24,13 @@ public class Login implements ActionListener{
     JTextField textUsername;
     JPasswordField textPassword;
     JButton submit, cancel, register;
+    JFrame frame = new JFrame();
     public Login(){
-        JFrame frame = new JFrame();
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Login");
+        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         username = new JLabel("Username");
         password = new JLabel("Password");
@@ -43,9 +45,9 @@ public class Login implements ActionListener{
         submit = new JButton("Submit");
         cancel = new JButton("Cancel");
         register = new JButton("Register");
-        submit.setBounds(20, 180, 100, 20);
-        cancel.setBounds(130, 180, 100, 20);
-        register.setBounds(80, 210, 100, 20);
+        submit.setBounds(40, 180, 100, 20);
+        cancel.setBounds(150, 180, 100, 20);
+        register.setBounds(100, 210, 100, 20);
         submit.addActionListener(this);
         cancel.addActionListener(this);
         register.addActionListener(this);
@@ -87,6 +89,8 @@ public class Login implements ActionListener{
                 }
                 break;
             case "Register":
+                frame.setVisible(false);
+                new Register();
                 break;
             case "Cancel":
                 System.exit(1);

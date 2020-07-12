@@ -43,6 +43,8 @@ public class MenuOrder implements ActionListener{
     public MenuOrder(){
         frame.setSize(500, 400);
         
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         judul = new JLabel("Menu Order");
         judul.setBounds(170, 0, 200, 20);
         judul.setFont(new Font(judul.getFont().getName(), judul.getFont().getStyle(), 22));

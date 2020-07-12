@@ -22,7 +22,7 @@ public class DatabaseControl {
     public static ArrayList<Users> getAllUser(){
         ArrayList<Users> users = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM User";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -71,7 +71,7 @@ public class DatabaseControl {
     
     public static boolean insertNewUser(Users user) {
         conn.connect();
-        String query = "INSERT INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO User VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
@@ -94,7 +94,7 @@ public class DatabaseControl {
     
     public static boolean updateUser(Users user) {
         conn.connect();
-        String query = "UPDATE users SET username='" + user.getUsername() + "', "
+        String query = "UPDATE User SET username='" + user.getUsername() + "', "
                 + "password='" + user.getPassword() + "', "
                 + "nama='" + user.getNamaLengkap() + "' "
                 + "alamat='" + user.getAlamat() + "' "
@@ -117,7 +117,7 @@ public class DatabaseControl {
     public static boolean deleteUser(String name) {
         conn.connect();
 
-        String query = "DELETE FROM users WHERE nama='" + name + "'";
+        String query = "DELETE FROM User WHERE nama='" + name + "'";
         try {
             Statement stmt = conn.con.createStatement();
             stmt.executeUpdate(query);
@@ -126,5 +126,19 @@ public class DatabaseControl {
             e.printStackTrace();
             return (false);
         }
+    }
+    public static boolean cekRegister(String KTP) {
+        conn.connect();
+        String query = "SELECT * FROM User WHERE KTP='" + KTP + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

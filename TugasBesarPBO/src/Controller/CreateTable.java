@@ -5,8 +5,9 @@
  */
 package Controller;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+//import com.mysql.jdbc.Connection;
+//import com.mysql.jdbc.Statement;
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -101,5 +102,8 @@ public class CreateTable{
         }catch (Exception e){
             System.err.println("Connection Failure" + e.getMessage());
         }
+    }
+    public static void main(String[] args) {
+        new CreateTable();
     }
 }

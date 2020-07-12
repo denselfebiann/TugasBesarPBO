@@ -18,7 +18,8 @@ public class DatabaseHandler implements DataInterface{
 
     public Connection con;
     private String driver = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost/db_test";
+//    private String url = "jdbc:mysql://localhost/db_test";
+    private String url = "jdbc:mysql://localhost/db_test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private String username = "root";
     private String password = "";
 
