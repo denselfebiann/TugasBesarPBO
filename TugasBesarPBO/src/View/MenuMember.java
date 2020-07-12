@@ -23,8 +23,9 @@ public class MenuMember implements ActionListener{
     private JButton order, langganan, myOrder;
     private RunningText welcome;
     private JLabel gambar;
+    JFrame frame = new JFrame();
     public MenuMember(){
-        JFrame frame = new JFrame();
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
         String kata = "WELCOME DENSEL FEBIAN";
@@ -59,7 +60,9 @@ public class MenuMember implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
-            case "order":
+            case "Order Ticket":
+                frame.setVisible(false);
+                MenuOrder order = new MenuOrder();
                 break;
             case "Langganan":
                 break;

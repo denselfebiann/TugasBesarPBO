@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tugasbesarpbo;
+package Model;
 
 /**
  *
- * @author MelvinS
+ * @author dense
  */
-public class Konsumsi {
-    private int idKonsumsi;
-    private String namaProduk;
-    private int jumlah;
-    private int hargaSatuan;
+public interface DataInterface {
+    
 }

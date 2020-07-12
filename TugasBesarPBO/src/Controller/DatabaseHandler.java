@@ -9,11 +9,12 @@ package Controller;
  *
  * @author hanschristian
  */
+import Model.DataInterface;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 
-public class DatabaseHandler {
+public class DatabaseHandler implements DataInterface{
 
     public Connection con;
     private String driver = "com.mysql.cj.jdbc.Driver";

@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tugasbesarpbo;
+package Controller;
+
+import Model.DataInterface;
 
 /**
  *
- * @author MelvinS
+ * @author dense
  */
-public class KeretaJadwal {
-    private String lokasiDepart;
-    private String lokasiArrive;
-    private String jamDepart;
-    private String jamArrive;
+public class DummyControl implements DataInterface{
+    
 }
