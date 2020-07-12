@@ -23,7 +23,7 @@ public class Register implements ActionListener{
     JLabel username, password, email, passwordRe, namaLengkap, telepon, kota, alamat, KTP, konfirmasi;
     JTextField textUsername, textEmail, textNamaLengkap, textTelepon, textKota, textAlamat, textKTP;
     JPasswordField textPassword, textPasswordRe;
-    JButton submit, cancel, back;
+    JButton submit, cancel, login;
     JFrame frame = new JFrame();
     public Register(){
         frame.setSize(300, 400);
@@ -76,13 +76,13 @@ public class Register implements ActionListener{
         
         submit = new JButton("Submit");
         cancel = new JButton("Cancel");
-        back = new JButton("Back");
+        login = new JButton("Login");
         submit.setBounds(40, 240, 100, 20);
         cancel.setBounds(150, 240, 100, 20);
-        back.setBounds(90, 270, 100, 20);
+        login.setBounds(90, 270, 100, 20);
         submit.addActionListener(this);
         cancel.addActionListener(this);
-        back.addActionListener(this);
+        login.addActionListener(this);
         
         konfirmasi = new JLabel();
         
@@ -91,7 +91,7 @@ public class Register implements ActionListener{
         frame.add(konfirmasi);
         frame.add(submit);
         frame.add(cancel);
-        frame.add(back);
+        frame.add(login);
         frame.add(textUsername);
         frame.add(textPassword);
         frame.add(textPasswordRe);
@@ -134,8 +134,9 @@ public class Register implements ActionListener{
                 String KTP = textKTP.getText();
                 
                 registerMember register = new registerMember(username, password, passwordRe, email, namaLengkap, telepon, kota, alamat, KTP);
+                JOptionPane.showMessageDialog(null, "Berhasil Register");
                 break;
-            case "Back":
+            case "Login":
                 frame.setVisible(false);
                 new Login();
                 break;

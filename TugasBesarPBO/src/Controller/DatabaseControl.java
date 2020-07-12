@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.Users;
+import Model.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class DatabaseControl {
     public static ArrayList<Users> getAllUser(){
         ArrayList<Users> users = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FROM User";
+        String query = "SELECT * FROM user";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -47,7 +47,7 @@ public class DatabaseControl {
     
     public static Users getUser(String username) {
         conn.connect();
-        String query = "SELECT * FROM users WHERE username='" + username + "'";
+        String query = "SELECT * FROM user WHERE username='" + username + "'";
         Users user = new Users();
         try {
             Statement stmt = conn.con.createStatement();
@@ -141,4 +141,29 @@ public class DatabaseControl {
         }
         return true;
     }
+    
+//    public static ArrayList<extPesanan> getPesanan(Users user){
+//        ArrayList<extPesanan> pesanan = new ArrayList<>();
+//        
+//        conn.connect();
+//        String query = "SELECT * FROM Pesanan WHERE userID ='" + user.getIdUser() + "'";
+//        try{
+//            Statement stmt = conn.con.createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//            while(rs.next()){
+//                KeretaJadwal jadwal = new KeretaJadwal();
+//                jadwal.
+//                
+//                
+//                
+//                
+//                pesanan.add(order);
+//            }
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }
+//        
+//        
+//        return pesanan;
+//    }
 }
