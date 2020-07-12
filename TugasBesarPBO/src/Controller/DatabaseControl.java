@@ -22,7 +22,7 @@ public class DatabaseControl {
     public static ArrayList<Users> getAllUser(){
         ArrayList<Users> users = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM user";
         try {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -47,7 +47,7 @@ public class DatabaseControl {
     
     public static Users getUser(String username) {
         conn.connect();
-        String query = "SELECT * FROM users WHERE username='" + username + "'";
+        String query = "SELECT * FROM user WHERE username='" + username + "'";
         Users user = new Users();
         try {
             Statement stmt = conn.con.createStatement();
@@ -71,7 +71,7 @@ public class DatabaseControl {
     
     public static boolean insertNewUser(Users user) {
         conn.connect();
-        String query = "INSERT INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
@@ -94,7 +94,7 @@ public class DatabaseControl {
     
     public static boolean updateUser(Users user) {
         conn.connect();
-        String query = "UPDATE users SET username='" + user.getUsername() + "', "
+        String query = "UPDATE user SET username='" + user.getUsername() + "', "
                 + "password='" + user.getPassword() + "', "
                 + "nama='" + user.getNamaLengkap() + "' "
                 + "alamat='" + user.getAlamat() + "' "
@@ -117,7 +117,7 @@ public class DatabaseControl {
     public static boolean deleteUser(String name) {
         conn.connect();
 
-        String query = "DELETE FROM users WHERE nama='" + name + "'";
+        String query = "DELETE FROM user WHERE nama='" + name + "'";
         try {
             Statement stmt = conn.con.createStatement();
             stmt.executeUpdate(query);
