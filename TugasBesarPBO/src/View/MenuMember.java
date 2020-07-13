@@ -23,7 +23,7 @@ public class MenuMember implements ActionListener{
     private JButton order, langganan, myOrder;
     private RunningText welcome;
     private JLabel gambar;
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Menu Member"); //hapus aja kalo ga perlu
     public MenuMember(){
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,6 +67,7 @@ public class MenuMember implements ActionListener{
             case "Langganan":
                 break;
             case "My Orders":
+                new MenuMyOrders();
                 break;
         }
     }
