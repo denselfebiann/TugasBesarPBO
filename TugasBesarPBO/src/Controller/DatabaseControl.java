@@ -71,7 +71,7 @@ public class DatabaseControl {
     
     public static boolean insertNewUser(Users user) {
         conn.connect();
-        String query = "INSERT INTO User VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
@@ -117,7 +117,7 @@ public class DatabaseControl {
     public static boolean deleteUser(String name) {
         conn.connect();
 
-        String query = "DELETE FROM User WHERE nama='" + name + "'";
+        String query = "DELETE FROM user WHERE nama='" + name + "'";
         try {
             Statement stmt = conn.con.createStatement();
             stmt.executeUpdate(query);
