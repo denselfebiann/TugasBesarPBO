@@ -18,7 +18,6 @@ public class TugasBesarPBO {
      */
     public static void main(String[] args) {
         new MainMenu();
-//        new MenuMember();
     }
     
 }
