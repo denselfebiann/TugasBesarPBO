@@ -138,7 +138,7 @@ public class Register implements ActionListener{
                 break;
             case "Login":
                 frame.setVisible(false);
-                new Login();
+                new MenuLogin();
                 break;
             case "Cancel":
                 System.exit(1);

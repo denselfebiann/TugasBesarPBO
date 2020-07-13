@@ -46,7 +46,7 @@ public class MainMenu implements ActionListener{
         switch(e.getActionCommand()){
             case "Login":
                 frame.setVisible(false);
-                Login login = new Login();
+                MenuLogin login = new MenuLogin();
                 break;
             case "Register":
                 frame.setVisible(false);
