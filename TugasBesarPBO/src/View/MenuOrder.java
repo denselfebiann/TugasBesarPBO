@@ -42,7 +42,7 @@ public class MenuOrder implements ActionListener{
     };
     public MenuOrder(){
         frame.setSize(500, 400);
-        
+        //1 GERBONG SENDIRI"
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         judul = new JLabel("Menu Order");

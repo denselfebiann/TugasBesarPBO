@@ -18,7 +18,7 @@ public class cekLogin {
         boolean cek = false;
         ArrayList<Users> user = controller.getAllUser();
         for(int i = 0; (i < user.size()) && (!cek); i++){
-            if((username.equals(user.get(i).getUsername())) && (password.equals(user.get(i).getPassword()))){
+            if((username.equals(user.get(i).getUsername())) && (Convert.stringToMD5(password).equals(user.get(i).getPassword()))){
                 cek = true;
             }
         }

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  * @author MelvinS
  */
 public class registerMember {
+    //JADIIN 1 CLASS AJA.. Dari pada dipisah satu satu
     private DatabaseControl controller = new DatabaseControl();
     
     public registerMember(String username, String password, String passwordRe, String email, String namaLengkap, String telepon, String kota, String alamat, String KTP){

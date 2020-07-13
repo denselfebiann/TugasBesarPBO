@@ -26,7 +26,7 @@ public class MenuMyOrders implements ActionListener{
         
         int height = 20;
         
-        
+        //JADIIN JTABLE
         listPesanan[0] = new JLabel("orderID111 | departureDipilih | tanggal | kursiDipilih | hargaTiket | langganan | konsumsi | totalHarga");
         listPesanan[1] = new JLabel("orderID222 | departureDipilih | tanggal | kursiDipilih | hargaTiket | langganan | konsumsi | totalHarga");
         listPesanan[2] = new JLabel("orderID333 | departureDipilih | tanggal | kursiDipilih | hargaTiket | langganan | konsumsi | totalHarga");

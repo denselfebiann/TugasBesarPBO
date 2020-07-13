@@ -16,6 +16,7 @@ import sun.util.logging.PlatformLogger;
  * @author dense
  */
 public class Convert {
+    //Common Controller // UTIL
     public static String stringToMD5(String password){
         String digest = null;
         try{
