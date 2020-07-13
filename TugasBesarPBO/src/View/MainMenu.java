@@ -40,7 +40,6 @@ public class MainMenu implements ActionListener{
     public static void main(String[] args) {
         new MainMenu();
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
