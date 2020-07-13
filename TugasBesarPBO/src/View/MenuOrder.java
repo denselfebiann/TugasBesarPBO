@@ -95,6 +95,8 @@ public class MenuOrder implements ActionListener{
         
         switch(e.getActionCommand()){
             case "Submit":
+                frame.setVisible(false);
+                new PemilihanKursi();
                 break;
         }
     }

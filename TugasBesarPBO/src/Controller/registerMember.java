@@ -21,7 +21,7 @@ public class registerMember {
             if(DatabaseControl.cekRegister(KTP)){
                 Users user = new Users();
                 user.setUsername(username);
-                user.setPassword(password);
+                user.setPassword(Convert.stringToMD5(password));
                 user.setEmail(email);
                 user.setNamaLengkap(namaLengkap);
                 user.setTelepon(telepon);

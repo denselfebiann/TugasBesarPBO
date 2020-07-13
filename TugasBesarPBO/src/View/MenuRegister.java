@@ -19,13 +19,13 @@ import javax.swing.JTextField;
  *
  * @author MelvinS
  */
-public class Register implements ActionListener{
+public class MenuRegister implements ActionListener{
     JLabel username, password, email, passwordRe, namaLengkap, telepon, kota, alamat, KTP, konfirmasi;
     JTextField textUsername, textEmail, textNamaLengkap, textTelepon, textKota, textAlamat, textKTP;
     JPasswordField textPassword, textPasswordRe;
     JButton submit, cancel, back;
     JFrame frame = new JFrame();
-    public Register(){
+    public MenuRegister(){
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Register");
@@ -115,7 +115,7 @@ public class Register implements ActionListener{
         frame.setVisible(true);
     }
     public static void main(String[] args) {
-        new Register();
+        new MenuRegister();
     }
     
     
@@ -134,10 +134,12 @@ public class Register implements ActionListener{
                 String KTP = textKTP.getText();
                 
                 registerMember register = new registerMember(username, password, passwordRe, email, namaLengkap, telepon, kota, alamat, KTP);
+                frame.setVisible(false);
+                new MenuMember();
                 break;
             case "Back":
                 frame.setVisible(false);
-                new Login();
+                new MenuLogin();
                 break;
             case "Cancel":
                 System.exit(1);

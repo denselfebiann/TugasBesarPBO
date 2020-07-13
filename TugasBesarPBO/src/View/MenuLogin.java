@@ -19,13 +19,13 @@ import javax.swing.JTextField;
  *
  * @author dense
  */
-public class Login implements ActionListener{
+public class MenuLogin implements ActionListener{
     JLabel username, password, konfirmasi;
     JTextField textUsername;
     JPasswordField textPassword;
     JButton submit, cancel, register;
     JFrame frame = new JFrame();
-    public Login(){
+    public MenuLogin(){
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Login");
@@ -68,7 +68,7 @@ public class Login implements ActionListener{
         frame.setVisible(true);
     }
     public static void main(String[] args) {
-        new Login();
+        new MenuLogin();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class Login implements ActionListener{
                 break;
             case "Register":
                 frame.setVisible(false);
-                new Register();
+                new MenuRegister();
                 break;
             case "Cancel":
                 System.exit(1);
