@@ -27,36 +27,14 @@ public class MenuMyOrders implements ActionListener{
         frame.setSize(600, 400);
         
         //ambil data dari db
-        int IDUser = 0;
+        int IDUser = 7;
         DatabaseControl control = new DatabaseControl();
         
-        String column[] = {"ID Order","Departure","Arrival","Tanggal","Nomor Kursi","Harga Tiket","Langganan","Konsumsi","Total Harga"};
-        String data[][] = {{"01","Bandung","Yogyakarta","10/07/2020","A3","50000","Langganan_2","Konsumsi_1","60000"},
-                            {"02","Yogyakarta","Tangerang","14/07/2020","J1","100000","Langganan_3","Konsumsi_3","120000"},
-                            {"05","Tangerang","Bandung","16/07/2020","C3","50000","Langganan_1","Konsumsi_1","60000"},
-                            };
+        String column[] = {"ID Order","Departure", "Arrival","Tanggal","Nomor Kursi","Harga Tiket","Langganan","Konsumsi","Total Harga"};
         
-        control.getPesanan(IDUser);
-        
-        ArrayList<MyOrders> listOrders = new ArrayList<>();
-        for(int i = 0; i<data.length; i++){
-            MyOrders order_cobain = new MyOrders();
-            order_cobain.setOrderID(data[i][0]);
-            order_cobain.setDeparture(data[i][1]);
-            order_cobain.setArrival(data[i][2]);
-            order_cobain.setTanggal(data[i][3]);
-            order_cobain.setKursi(data[i][4]);
-            order_cobain.setHargaTiket(data[i][5]);
-            order_cobain.setLangganan(data[i][6]);
-            order_cobain.setKonsumsi(data[i][7]);
-            order_cobain.setTotalHarga(data[i][8]);
-            listOrders.add(order_cobain);
-            
-            
-        }
+        ArrayList<MyOrders> listOrders = control.getPesanan(IDUser);
         
         DefaultTableModel tableModel = new DefaultTableModel(column, 0);
-        JTable table = new JTable(tableModel);
         
         for(int i = 0; i<listOrders.size(); i++){
             String orderID = listOrders.get(i).getOrderID();

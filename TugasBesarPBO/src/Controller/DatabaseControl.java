@@ -145,8 +145,8 @@ public class DatabaseControl {
         return true;
     }
     
-    public static ArrayList<String> getPesanan(int IDUser){
-        ArrayList<String> pesanan = new ArrayList<>();
+    public static ArrayList<MyOrders> getPesanan(int IDUser){
+        ArrayList<MyOrders> pesanan = new ArrayList<>();
         
         conn.connect();
         String query = "SELECT * FROM Pesanan WHERE userID ='" + IDUser + "'";
@@ -154,39 +154,19 @@ public class DatabaseControl {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
+                MyOrders order = new MyOrders();
+                order.setOrderID(rs.getString("orderID"));
+                order.setDeparture(rs.getString("departureDipilih"));
+                order.setArrival("ARRIVAL");
+//                order.setArrival(rs.getString("arrivalDipilih"));
+                order.setTanggal(rs.getString("tanggal"));
+                order.setKursi(rs.getString("kursi"));
+                order.setHargaTiket(rs.getString("hargaTiket"));
+                order.setLangganan(rs.getString("langganan"));
+                order.setKonsumsi(rs.getString("konsumsi"));
+                order.setTotalHarga(rs.getString("totalHarga"));
                 
-                String orderID = rs.getString("orderID");
-                String userID = rs.getString("userID");
-                String scheduleID = rs.getString("scheduleID");
-                String departure = rs.getString("departureDipilih");
-                String arrival = rs.getString("arrivalDipilih");
-                String tanggal = rs.getString("tanggal");
-                String kursi = rs.getString("kursi");
-                String hargaTiket = rs.getString("hargaTiket");
-                String langganan = rs.getString("langganan");
-                String konsumsi = rs.getString("konsumsi");
-                String hargaKonsumsi = rs.getString("hargaKonsumsi");
-                String jumlahKonsumsi = rs.getString("jumlahKonsumsi");
-                String totalHargaTiket = rs.getString("totalHargaTiket");
-                String totalHargaKonsumsi = rs.getString("totalHargaKonsumsi");
-                String totalHarga = rs.getString("totalHarga");
-                
-                pesanan.set(0, orderID);
-                pesanan.set(1, userID);
-                pesanan.set(2, scheduleID);
-                pesanan.set(3, departure);
-                pesanan.set(4, arrival);
-                pesanan.set(5, tanggal);
-                pesanan.set(6, kursi);
-                pesanan.set(7, hargaTiket);
-                pesanan.set(8, langganan);
-                pesanan.set(9, konsumsi);
-                pesanan.set(10, hargaKonsumsi);
-                pesanan.set(11, jumlahKonsumsi);
-                pesanan.set(12, totalHargaTiket);
-                pesanan.set(13, totalHargaKonsumsi);
-                pesanan.set(14, totalHarga);
-                
+                pesanan.add(order);
 
             }
         }catch (SQLException e){
