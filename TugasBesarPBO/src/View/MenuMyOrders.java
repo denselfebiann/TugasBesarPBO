@@ -45,9 +45,6 @@ public class MenuMyOrders implements ActionListener{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    public static void main(String[] args) {
-        new MenuMyOrders();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -114,10 +114,6 @@ public class MenuRegister implements ActionListener{
         frame.setLayout(null);
         frame.setVisible(true);
     }
-    public static void main(String[] args) {
-        new MenuRegister();
-    }
-    
     
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -6,6 +6,7 @@
 package View;
 
 import Controller.RunningText;
+import Controller.UserManager;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,12 +24,13 @@ public class MenuMember implements ActionListener{
     private JButton order, langganan, myOrder;
     private RunningText welcome;
     private JLabel gambar;
+    private String name = UserManager.getInstance().getUser().getUsername();
     JFrame frame = new JFrame("Menu Member"); //hapus aja kalo ga perlu
     public MenuMember(){
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
-        String kata = "WELCOME DENSEL FEBIAN";
+        String kata = "WELCOME " + name;
         welcome = new RunningText(kata);
         
         gambar = new JLabel("");
@@ -62,7 +64,7 @@ public class MenuMember implements ActionListener{
         switch(e.getActionCommand()){
             case "Order Ticket":
                 frame.setVisible(false);
-                MenuOrder order = new MenuOrder();
+                new MenuOrder();
                 break;
             case "Langganan":
                 break;

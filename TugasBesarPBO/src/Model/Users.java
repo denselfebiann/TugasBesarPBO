@@ -5,6 +5,13 @@
  */
 package Model;
 
+import Controller.Convert;
+import Controller.DatabaseControl;
+import Controller.UserManager;
+import View.MenuLogin;
+import View.MenuRegister;
+import java.util.ArrayList;
+
 /**
  *
  * @author MelvinS
@@ -83,20 +90,33 @@ public class Users {
     }
     
     public void register(){
-        
+        new MenuRegister();
     }
     public void login(){
-        
+        new MenuLogin();
     }
     public boolean cekLogin(String username, String password){
-        
-        return true;
+        DatabaseControl controller = new DatabaseControl();
+        Users user = controller.getUser(username);
+        if((user.getUsername().equals(username)) && (Convert.MD5ToString(user.getPassword()).equals(password))){
+            UserManager.getInstance().setUser(user);
+            return true;
+        }else{
+            return false;
+        }
     }
     public void logout(){
         
     }
     public boolean cekAdmin(){
-        
-        return true;
+        DatabaseControl controller = new DatabaseControl();
+        Users user = controller.getUser(username);
+        boolean cek = false;
+        if(user.getTipeUser() == 1){
+            cek = true;
+        }else if(user.getTipeUser() == 0){
+            cek = false;
+        }
+        return cek;
     }
 }

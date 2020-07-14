@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.UserManager;
 import Controller.cekLogin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,9 +68,6 @@ public class MenuLogin implements ActionListener{
         frame.setLayout(null);
         frame.setVisible(true);
     }
-    public static void main(String[] args) {
-        new MenuLogin();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -77,9 +75,8 @@ public class MenuLogin implements ActionListener{
             case "Submit":
                 String user = textUsername.getText();
                 String pass = new String(textPassword.getPassword());
-                cekLogin cek = new cekLogin();
-                if(cek.cekLogin(user, pass)){
-                    if(cek.cekAdmin(user)){
+                if(UserManager.getInstance().getUser().cekLogin(user, pass)){
+                    if(UserManager.getInstance().getUser().cekAdmin()){
                         new MenuAdmin();
                     }else{
                         new MenuMember();

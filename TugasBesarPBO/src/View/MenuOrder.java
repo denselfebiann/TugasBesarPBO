@@ -5,13 +5,20 @@
  */
 package View;
 
+import Controller.DatabaseControl;
 import Controller.Garis;
+import Controller.UserManager;
+import Model.Kereta;
+import Model.KeretaJadwal;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,20 +34,77 @@ public class MenuOrder implements ActionListener{
     JComboBox rute, tanggal, jam;
     JButton submit;
     JFrame frame = new JFrame();
-    String[] r = {"Bandung-Jakarta", "Jakarta-Bogor", "Bogor-Surabaya", "Surabaya-Bandung"};
-    String[][] t = {
-        {"13-7-2020", "14-7-2020", "15-7-2020", "17-7-2020"},
-        {"13-7-2020", "14-7-2020", "13-7-2020", "13-7-2020"},
-        {"14-7-2020", "15-7-2020", "14-7-2020", "16-7-2020"},
-        {"12-7-2020", "13-7-2020", "14-7-2020", "15-7-2020"}
-    };
-    String[][] j = {
-        {"07.00-09.00", "10.00-13.00", "14.00-17.00", "18.00-21.00"},
-        {"05.00-09.00", "10.00-12.00", "13.00-18.00", "19.00-23.00"},
-        {"06.00-09.00", "10.00-14.00", "15.00-19.00", "20.00-24.00"},
-        {"04.00-09.00", "10.00-14.00", "15.00-20.00", "21.00-23.00"}
-    };
+    DatabaseControl controller = new DatabaseControl();
+    ArrayList<Kereta> kereta = controller.getKereta();
+
+    String[] r;
+    String[][] d;
+    String[] t;
     public MenuOrder(){
+        int size = 0;
+        Date berikut = new Date();
+        for(int i = 0; i < kereta.size(); i++){
+            size += kereta.get(i).getJadwal().size();
+        }
+        r = new String[size];
+        t = new String[1];
+        d = new String[2][30];
+        SimpleDateFormat dn = new SimpleDateFormat("dd-MM-yy");
+        String date = dn.format(berikut);
+        System.out.println(date);
+        int hari = Integer.parseInt(date.substring(0, 2));
+        int bulan = Integer.parseInt(date.substring(3, 5));
+        int tahun = Integer.parseInt(date.substring(6, 8));
+        int counter1 = 0, counter2 = 0;
+        for(int j = 1; j <= 30; j++){
+            String temp = "";
+            if(j % 2 == 0){
+                if(hari < 10){
+                    temp = "0" + Integer.toString(hari);
+                }else{
+                    temp = Integer.toString(hari);
+                }
+                if(bulan < 10){
+                    temp += "-0" + Integer.toString(bulan);
+                }else{
+                    temp += "-" + Integer.toString(bulan);
+                }
+                temp += "-" + Integer.toString(tahun);
+                d[0][counter1] = temp;
+                counter1++;
+            }else{
+                if(hari < 10){
+                    temp = "0" + Integer.toString(hari);
+                }else{
+                    temp = Integer.toString(hari);
+                }
+                if(bulan < 10){
+                    temp += "-0" + Integer.toString(bulan);
+                }else{
+                    temp += "-" + Integer.toString(bulan);
+                }
+                temp += "-" + Integer.toString(tahun);
+                d[1][counter2] = temp;
+                counter2++;
+            }
+            hari++;
+            if(hari == 30){
+                bulan++;
+                hari = 1;
+            }
+            if(bulan == 12){
+                tahun++;
+                bulan = 1;
+            }
+        }
+        
+        
+        for(int i = 0; i < kereta.size(); i++){
+            Kereta train = kereta.get(i);
+            for(int j = 0; j < train.getJadwal().size(); j++){
+                r[j] = (train.getJadwal().get(j).getLokasiDepart() + "-" + train.getJadwal().get(j).getLokasiArrive());
+            }
+        }
         frame.setSize(500, 400);
         //1 GERBONG SENDIRI"
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,9 +125,9 @@ public class MenuOrder implements ActionListener{
         rute = new JComboBox(r);
         rute.setBounds(210, 40, 150, 20);
         rute.addActionListener(this);
-        tanggal = new JComboBox(t[0]);
+        tanggal = new JComboBox();
         tanggal.setBounds(210, 80, 150, 20);
-        jam = new JComboBox(j[0]);
+        jam = new JComboBox();
         jam.setBounds(210, 120, 150, 20);
         submit = new JButton("Submit");
         submit.setBounds(150, 150, 150, 20);
@@ -86,15 +150,33 @@ public class MenuOrder implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int rut = rute.getSelectedIndex();
-        
+        Object rut = rute.getSelectedItem();
+        String str = rut.toString();
+        KeretaJadwal jadwal = new KeretaJadwal();
+        jam.removeAllItems();
         tanggal.removeAllItems();
-        for(int i = 0; i < t[rut].length; i++){
-            tanggal.addItem(t[rut][i]);
+        for(int i = 0; i < str.length(); i++){
+            String s = str.substring(i, i+1);
+            if(s.equals("-")){
+                String cek1 = str.substring(0, i);
+                String cek2 = str.substring(i+1, str.length());
+                jadwal = controller.getJadwal(cek1, cek2);
+                String j = jadwal.getJamDepart() + "-" + jadwal.getJamArrive();
+                jam.addItem(j);
+            }
         }
-        
+        if(rute.getSelectedIndex() % 2 == 0){
+            for(int i = 0; i < 15; i++){
+                tanggal.addItem(d[0][i]);
+            }
+        }else{
+            for(int i = 0; i < 15; i++){
+                tanggal.addItem(d[1][i]);
+            }
+        }
         switch(e.getActionCommand()){
             case "Submit":
+                
                 frame.setVisible(false);
                 new PemilihanKursi();
                 break;

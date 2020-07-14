@@ -12,25 +12,25 @@ import java.util.ArrayList;
  * @author MelvinS
  */
 public class Kereta {
-    private String idKereta;
-    private String gerbong;
+    private int idKereta;
+    private int gerbong;
     private int jumlahKursi;
     private boolean[] kursiKosong;
     private ArrayList<KeretaJadwal> jadwal;
 
-    public String getIdKereta() {
+    public int getIdKereta() {
         return idKereta;
     }
 
-    public void setIdKereta(String idKereta) {
+    public void setIdKereta(int idKereta) {
         this.idKereta = idKereta;
     }
 
-    public String getGerbong() {
+    public int getGerbong() {
         return gerbong;
     }
 
-    public void setGerbong(String gerbong) {
+    public void setGerbong(int gerbong) {
         this.gerbong = gerbong;
     }
 

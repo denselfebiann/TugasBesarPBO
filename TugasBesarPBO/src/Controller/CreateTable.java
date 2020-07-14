@@ -42,18 +42,19 @@ public class CreateTable{
             stm.execute(sql);
             
             sql = "CREATE TABLE kereta(" + 
-"                   keretaID INT NOT NULL," + 
-"                   jamBerangkat VARCHAR(100) NOT NULL," + 
-"                   gerbong VARCHAR(100) NOT NULL," + 
+"                   keretaID INT NOT NULL," +
+"                   gerbong INT NOT NULL," + 
 "                   jumlahKursi INT NOT NULL" + 
 "                 )";
             stm.execute(sql);
             
             sql = "CREATE TABLE jadwalRuteHarga(" +
-"                   keretaID INT NOT NULL," +
 "                   scheduleID INT NOT NULL," +
+"                   keretaID INT NOT NULL," +
 "                   ruteAwal VARCHAR(100) NOT NULL," +
 "                   ruteAkhir VARCHAR(100) NOT NULL," +
+"                   jamBerangkat VARCHAR(100) NOT ULL," +
+"                   jamSampai VARCHAR(100) NOT NULL," +
 "                   HargaTiket INT NOT NULL" +
 "                 )";
             stm.execute(sql);

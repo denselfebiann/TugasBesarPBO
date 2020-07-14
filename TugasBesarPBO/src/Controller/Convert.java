@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,5 +33,16 @@ public class Convert {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, e);
         }
         return digest;
+    }
+    public static String MD5ToString(String password){
+        String md5 = null;
+        try{
+            MessageDigest mdEnc = MessageDigest.getInstance("MD5");
+            mdEnc.update(password.getBytes(), 0, password.length());
+            md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+        }catch(Exception e){
+            return null;
+        }
+        return md5;
     }
 }

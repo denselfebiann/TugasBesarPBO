@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.UserManager;
+import Model.Users;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -37,9 +39,6 @@ public class MainMenu implements ActionListener{
         frame.setVisible(true);
     }
     
-    public static void main(String[] args) {
-        new MainMenu();
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
@@ -49,7 +48,6 @@ public class MainMenu implements ActionListener{
                 break;
             case "Register":
                 frame.setVisible(false);
-                Register register = new Register();
                 break;
         }
     }
