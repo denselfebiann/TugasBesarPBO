@@ -84,6 +84,7 @@ public class CreateTable{
 "                   userID INT NOT NULL," + 
 "                   scheduleID INT NOT NULL," + 
 "                   departureDipilih VARCHAR(100) NOT NULL," + 
+"                   arrivalDipilih VARCHAR(100) NOT NULL," +
 "                   tanggal VARCHAR(100) NOT NULL," + 
 "                   kursi VARCHAR(100) NOT NULL," + 
 "                   hargaTiket INT NOT NULL," + 
