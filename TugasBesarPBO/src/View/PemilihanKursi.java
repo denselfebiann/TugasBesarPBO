@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.cekLogin;
+import Controller.LoginController;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

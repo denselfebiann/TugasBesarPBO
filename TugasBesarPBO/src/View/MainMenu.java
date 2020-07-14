@@ -49,7 +49,7 @@ public class MainMenu implements ActionListener{
                 break;
             case "Register":
                 frame.setVisible(false);
-                Register register = new Register();
+                new MenuRegister();
                 break;
         }
     }

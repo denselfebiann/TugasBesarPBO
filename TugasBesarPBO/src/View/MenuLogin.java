@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.cekLogin;
+import Controller.LoginController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -77,7 +77,7 @@ public class MenuLogin implements ActionListener{
             case "Submit":
                 String user = textUsername.getText();
                 String pass = new String(textPassword.getPassword());
-                cekLogin cek = new cekLogin();
+                LoginController cek = new LoginController();
                 if(cek.cekLogin(user, pass)){
                     if(cek.cekAdmin(user)){
                         new MenuAdmin();

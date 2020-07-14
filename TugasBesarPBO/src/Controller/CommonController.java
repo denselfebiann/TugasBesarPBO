@@ -9,14 +9,12 @@ import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.applet.Main;
-import sun.util.logging.PlatformLogger;
 
 /**
  *
- * @author dense
+ * @author MelvinS
  */
-public class Convert {
-    //Common Controller // UTIL
+public class CommonController {
     public static String stringToMD5(String password){
         String digest = null;
         try{
