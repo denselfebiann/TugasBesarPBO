@@ -37,9 +37,7 @@ public class PemilihanKursi implements ActionListener{
         frame.setTitle("Pemilihan Kursi");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        judul = new JLabel("Silahkan Pilih Kursi");
-        judul.setFont(new Font(judul.getFont().getName(), judul.getFont().getStyle(), 18));
-        judul.setBounds(60, 10, 200, 50);
+        
 
         frame.add(judul);
         

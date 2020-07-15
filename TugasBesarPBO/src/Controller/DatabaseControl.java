@@ -154,8 +154,9 @@ public class DatabaseControl {
                 kereta.setIdKereta(rs.getInt("keretaID"));
                 kereta.setGerbong(rs.getInt("gerbong"));
                 kereta.setJumlahKursi(rs.getInt("jumlahKursi"));
+                kereta.setDeparture(rs.getString("departure"));
                 ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
-                allJadwal = getAllJadwal(rs.getInt("keretaID"));
+                allJadwal = getAllJadwal(rs.getString("departure"));
                 kereta.setJadwal(allJadwal);
                 allKereta.add(kereta);
             }
@@ -164,10 +165,10 @@ public class DatabaseControl {
         }
         return (allKereta);
     }
-    public static ArrayList<KeretaJadwal>getAllJadwal(int id){
+    public static ArrayList<KeretaJadwal>getAllJadwal(String departure){
         ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FROM jadwalruteharga WHERE keretaID = " + id;
+        String query = "SELECT * FROM jadwalruteharga WHERE departure = '" + departure + "'";
         try{
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);

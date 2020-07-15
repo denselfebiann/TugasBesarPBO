@@ -14,32 +14,61 @@ import java.util.Date;
  */
 public class Pesanan {
     private int orderID;
-    private Date tanggal;
-    private Pembayaran pembayaran;
+    private int scheduleID;
+    private String departureDipilih;
+    private String tanggal;
+    private String kursi;
+    private int hargaTiket;
+    private int totalHargaTiket;
+    private int totalHarga;
 
-    public int getOrderID() {
+    public int getOrderID(){
         return orderID;
     }
-
-    public void setOrderID(int orderID) {
+    public void setOrderID(int orderID){
         this.orderID = orderID;
     }
-
-    public Date getTanggal() {
+    public int getScheduleID(){
+        return scheduleID;
+    }
+    public void setScheduleID(int scheduleID){
+        this.scheduleID = scheduleID;
+    }
+    public String getDepartureDipilih(){
+        return departureDipilih;
+    }
+    public void setDepartureDipilih(String departureDipilih){
+        this.departureDipilih = departureDipilih;
+    }
+    public String getTanggal(){
         return tanggal;
     }
-
-    public void setTanggal(Date tanggal) {
+    public void setTanggal(String tanggal){
         this.tanggal = tanggal;
     }
-
-    public Pembayaran getPembayaran() {
-        return pembayaran;
+    public String getKursi(){
+        return kursi;
     }
-
-    public void setPembayaran(Pembayaran pembayaran) {
-        this.pembayaran = pembayaran;
+    public void setKursi(String kursi){
+        this.kursi = kursi;
     }
-    
+    public int getHargaTiket(){
+        return hargaTiket;
+    }
+    public void setHargaTiket(int hargaTiket){
+        this.hargaTiket = hargaTiket;
+    }
+    public int getTotalHargaTiket(){
+        return totalHargaTiket;
+    }
+    public void setTotalHargaTiket(int totalHargaTiket){
+        this.totalHargaTiket = totalHargaTiket;
+    }
+    public int getTotalHarga(){
+        return totalHarga;
+    }
+    public void setTotalHarga(int totalHarga){
+        this.totalHarga = totalHarga;
+    }
     
 }
