@@ -20,7 +20,7 @@ public class Garis extends JPanel implements Runnable{
         setPreferredSize(new Dimension(500, 400));
     }
     public void paint(Graphics g){
-        g.drawLine(0, 30, 500, 30);
+        g.drawLine(0, 30, 800, 30);
     }
 
     @Override

@@ -14,7 +14,28 @@ public class KeretaJadwal {
     private String lokasiArrive;
     private String jamDepart;
     private String jamArrive;
-
+    private int keretaID;
+    private int scheduleID;
+    private String departure;
+    
+    public String getDeparture(){
+        return departure;
+    }
+    public void setDeparture(String departure){
+        this.departure = departure;
+    }
+    public int getKeretaID(){
+        return keretaID;
+    }
+    public void setKeretaID(int keretaID){
+        this.keretaID = keretaID;
+    }
+    public int getScheduleID(){
+        return scheduleID;
+    }
+    public void setScheduleID(int scheduleID){
+        this.scheduleID = scheduleID;
+    }
     public String getLokasiDepart() {
         return lokasiDepart;
     }

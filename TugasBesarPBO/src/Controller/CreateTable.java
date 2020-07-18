@@ -45,6 +45,7 @@ public class CreateTable{
 "                   keretaID INT NOT NULL," +
 "                   gerbong INT NOT NULL," + 
 "                   jumlahKursi INT NOT NULL" + 
+"                   departure VARCHAR(100) NOT NULL" +
 "                 )";
             stm.execute(sql);
             

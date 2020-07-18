@@ -13,4 +13,11 @@ import java.util.ArrayList;
  */
 public class Member extends Users{
     private ArrayList<Pesanan> pesanan;
+    
+    public ArrayList<Pesanan> getPesanan(){
+        return pesanan;
+    }
+    public void setPesanan(ArrayList<Pesanan> pesanan){
+        this.pesanan = pesanan;
+    }
 }

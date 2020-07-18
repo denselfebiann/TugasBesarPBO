@@ -5,10 +5,15 @@
  */
 package View;
 
-import Controller.cekLogin;
+import Controller.DatabaseControl;
+import Controller.KeretaManager;
+import Controller.LoginController;
+import Model.Kereta;
+import Model.Pesanan;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -22,57 +27,75 @@ import javax.swing.JTextField;
  * @author dense
  */
 public class PemilihanKursi implements ActionListener{
-    JLabel judul;
-    JButton submit, cancel, register;
-    
     JFrame frame = new JFrame();
+    JLabel labelGerbong;
+    JButton submit, nextGerbong, previousGerbong;
+    DatabaseControl controller = new DatabaseControl();
     
-    int banyakKursi = 40;
-    JCheckBox[] kursi = new JCheckBox[banyakKursi];
-    JLabel[] kursiTerisi = new JLabel[banyakKursi];
-    boolean[] kursiKosong = {false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, };
-    public PemilihanKursi(){
-        frame.setSize(300, 400);
+    int maxKursi = 40;
+    int banyakKursi;
+    int currentGerbong = 1;
+    int gerbong;
+    
+    JCheckBox[] kursi;
+    JLabel[] kursiTerisi;
+    boolean[] kursiKosong;
+    Kereta kereta = KeretaManager.getInstance().getKereta();
+    public PemilihanKursi(Pesanan pesanan){
+        frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Pemilihan Kursi");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        judul = new JLabel("Silahkan Pilih Kursi");
-        judul.setFont(new Font(judul.getFont().getName(), judul.getFont().getStyle(), 18));
-        judul.setBounds(60, 10, 200, 50);
-
-        frame.add(judul);
-        
         int x = 50, y = 60, z = 0;
-        for(int i = 0; i < banyakKursi; i++){
+        gerbong = kereta.getGerbong();
+        
+        banyakKursi = kereta.getJumlahKursi();
+        kursi = new JCheckBox[banyakKursi];
+        kursiTerisi = new JLabel[banyakKursi];
+        kursiKosong = new boolean[banyakKursi];
+        labelGerbong = new JLabel("Gerbong " + currentGerbong);
+        nextGerbong = new JButton("Next Gerbong");
+        previousGerbong = new JButton("Previous Gerbong");
+        submit = new JButton("Submit");
+        
+        labelGerbong.setBounds(310, 10, 200, 35);
+        nextGerbong.setBounds(500, 10, 200,  35);
+        previousGerbong.setBounds(50, 10, 200, 35);
+        submit.setBounds(330, 350, 100, 20);
+        
+        nextGerbong.addActionListener(this);
+        previousGerbong.addActionListener(this);
+        submit.addActionListener(this);
+        
+        labelGerbong.setFont(new Font(labelGerbong.getFont().getName(), labelGerbong.getFont().getStyle(), 28));
+
+        for(int i = 0; i < maxKursi; i++){
+            kursiKosong[i] = kereta.getKursiKosong()[i];
             if(!kursiKosong[i]){
                 kursi[i] = new JCheckBox();
-                kursi[i].setBounds(x, y, 15, 15);
+                kursi[i].setBounds(x, y, 50, 50);
                 frame.add(kursi[i]);
             }else{
                 kursiTerisi[i] = new JLabel("X");
-                kursiTerisi[i].setBounds(x+5, y, 15, 15);
+                kursiTerisi[i].setBounds(x+5, y, 50, 50);
                 frame.add(kursiTerisi[i]);
             }
-            x += 20;
-            if(x > 230){
+            x += 70;
+            if(x > 700){
                 x = 50;
-                y += 20;
+                y += 50;
                 z++;
             }
             if(z == 2){
-                y += 20;
+                y += 50;
                 z = 0;
             }
         }
         
-        
-        submit = new JButton("Submit");
-        submit.setBounds(85, 180, 100, 20);
-        submit.addActionListener(this);
-        
         frame.add(submit);
-        
+        frame.add(nextGerbong);
+        frame.add(previousGerbong);
+        frame.add(labelGerbong);
         frame.setLayout(null);
         frame.setVisible(true);
     }
@@ -80,6 +103,20 @@ public class PemilihanKursi implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
+            case "Next Gerbong":
+                currentGerbong++;
+                if(currentGerbong > gerbong){
+                    currentGerbong = 1;
+                }
+                labelGerbong.setText("Gerbong " + currentGerbong);
+                break;
+            case "Previous Gerbong":
+                currentGerbong--;
+                if(currentGerbong <= 0){
+                    currentGerbong = gerbong;
+                }
+                labelGerbong.setText("Gerbong " + currentGerbong);
+                break;
             case "Submit":
                 break;
         }

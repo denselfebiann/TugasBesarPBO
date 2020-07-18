@@ -27,7 +27,6 @@ public class MenuMember implements ActionListener{
     private String name = UserManager.getInstance().getUser().getUsername();
     JFrame frame = new JFrame("Menu Member"); //hapus aja kalo ga perlu
     public MenuMember(){
-        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
         String kata = "WELCOME " + name;

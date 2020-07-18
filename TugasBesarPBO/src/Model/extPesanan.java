@@ -24,15 +24,6 @@ public class extPesanan extends Pesanan{
     public extPesanan() {
     }
 
-    public extPesanan(Kereta detailKereta, String gerbong, String kursiDipilih, ArrayList<Konsumsi> konsumsi, int orderID, Date tanggal) {
-        this.detailKereta = detailKereta;
-        this.gerbong = gerbong;
-        this.kursiDipilih = kursiDipilih;
-        this.konsumsi = konsumsi;
-        super.setOrderID(orderID);
-        super.setTanggal(tanggal);
-    }
-
     public Kereta getDetailKereta() {
         return detailKereta;
     }

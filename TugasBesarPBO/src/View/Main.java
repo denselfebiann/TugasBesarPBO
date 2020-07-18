@@ -20,6 +20,6 @@ public class Main {
      */
     public static void main(String[] args) {
         UserManager instance;
-        new MenuOrder();
+        new MainMenu();
     }
 }

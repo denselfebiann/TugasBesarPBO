@@ -142,7 +142,7 @@ public class DatabaseControl {
         }
         return true;
     }
-    public static ArrayList<Kereta> getKereta(){
+    public static ArrayList<Kereta> getAllKereta(){
         ArrayList<Kereta> allKereta = new ArrayList<>();
         conn.connect();
         String query = "SELECT * FROM kereta";
@@ -154,8 +154,9 @@ public class DatabaseControl {
                 kereta.setIdKereta(rs.getInt("keretaID"));
                 kereta.setGerbong(rs.getInt("gerbong"));
                 kereta.setJumlahKursi(rs.getInt("jumlahKursi"));
+                kereta.setDeparture(rs.getString("departure"));
                 ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
-                allJadwal = getAllJadwal(rs.getInt("keretaID"));
+                allJadwal = getAllJadwal(rs.getString("departure"));
                 kereta.setJadwal(allJadwal);
                 allKereta.add(kereta);
             }
@@ -164,19 +165,43 @@ public class DatabaseControl {
         }
         return (allKereta);
     }
-    public static ArrayList<KeretaJadwal>getAllJadwal(int id){
+    public static Kereta getKereta(int idKereta, String departure){
+        Kereta kereta = new Kereta();
+        conn.connect();
+        String query = "SELECT * FROM kereta WHERE keretaID = " + idKereta + " and departure = '" + departure + "'";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                kereta.setIdKereta(rs.getInt("keretaID"));
+                kereta.setDeparture(rs.getString("departure"));
+                kereta.setGerbong(rs.getInt("gerbong"));
+                kereta.setJumlahKursi(rs.getInt("jumlahKursi"));
+                ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
+                allJadwal = getAllJadwal(rs.getString("departure"));
+                kereta.setJadwal(allJadwal);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return kereta;
+    }
+    public static ArrayList<KeretaJadwal>getAllJadwal(String departure){
         ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FROM jadwalruteharga WHERE keretaID = " + id;
+        String query = "SELECT * FROM jadwalruteharga WHERE departure = '" + departure + "'";
         try{
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 KeretaJadwal jadwal = new KeretaJadwal();
+                jadwal.setScheduleID(rs.getInt("scheduleID"));
+                jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
                 jadwal.setJamArrive(rs.getString("jamSampai"));
                 jadwal.setLokasiDepart(rs.getString("ruteAwal"));
                 jadwal.setLokasiArrive(rs.getString("ruteAkhir"));
+                jadwal.setDeparture(rs.getString("departure"));
                 allJadwal.add(jadwal);
             }
         }catch(Exception e){
@@ -192,10 +217,13 @@ public class DatabaseControl {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
+                jadwal.setScheduleID(rs.getInt("scheduleID"));
+                jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
                 jadwal.setJamArrive(rs.getString("JamSampai"));
                 jadwal.setLokasiDepart(rs.getString("ruteAwal"));
                 jadwal.setLokasiArrive(rs.getString("ruteAkhir"));
+                jadwal.setDeparture(rs.getString("departure"));
             }
         }catch(Exception e){
             e.printStackTrace();
