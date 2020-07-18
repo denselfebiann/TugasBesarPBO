@@ -186,6 +186,22 @@ public class DatabaseControl {
         }
         return kereta;
     }
+    public static ArrayList<Boolean> getKursi(int scheduleID){
+        ArrayList<Boolean> kursi = new ArrayList<>();
+        conn.connect();
+        String query = "SELECT * FORM kursi WEHERE scheduleID = " + scheduleID;
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                String k = rs.getString("status");
+                kursi.add(Boolean.parseBoolean(k));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return kursi;
+    }
     public static ArrayList<KeretaJadwal>getAllJadwal(String departure){
         ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
         conn.connect();

@@ -7,6 +7,7 @@ package View;
 
 import Controller.DatabaseControl;
 import Controller.KeretaManager;
+import Controller.PesananManager;
 import Controller.cekLogin;
 import Model.Kereta;
 import Model.Pesanan;
@@ -41,6 +42,8 @@ public class PemilihanKursi implements ActionListener{
     JLabel[] kursiTerisi;
     boolean[] kursiKosong;
     Kereta kereta = KeretaManager.getInstance().getKereta();
+    ArrayList<Boolean> k = controller.getKursi(PesananManager.getInstance().getPesanan().getScheduleID());
+    
     public PemilihanKursi(Pesanan pesanan){
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
@@ -53,6 +56,11 @@ public class PemilihanKursi implements ActionListener{
         kursi = new JCheckBox[banyakKursi];
         kursiTerisi = new JLabel[banyakKursi];
         kursiKosong = new boolean[banyakKursi];
+        
+        for(int i = 0; i < k.size(); i++){
+            kursiKosong[i] = k.get(i);
+        }
+        KeretaManager.getInstance().getKereta().setKursiKosong(kursiKosong);
         labelGerbong = new JLabel("Gerbong " + currentGerbong);
         nextGerbong = new JButton("Next Gerbong");
         previousGerbong = new JButton("Previous Gerbong");
@@ -69,11 +77,13 @@ public class PemilihanKursi implements ActionListener{
         
         labelGerbong.setFont(new Font(labelGerbong.getFont().getName(), labelGerbong.getFont().getStyle(), 28));
 
-        for(int i = 0; i < maxKursi; i++){
-            kursiKosong[i] = kereta.getKursiKosong()[i];
+        for(int i = 0; i < (maxKursi * currentGerbong); i++){
+            kursiKosong[i] = false;
+            kursiKosong[10] = true;
             if(!kursiKosong[i]){
                 kursi[i] = new JCheckBox();
                 kursi[i].setBounds(x, y, 50, 50);
+                System.out.println(i);
                 frame.add(kursi[i]);
             }else{
                 kursiTerisi[i] = new JLabel("X");
@@ -108,9 +118,17 @@ public class PemilihanKursi implements ActionListener{
                 if(currentGerbong > gerbong){
                     currentGerbong = 1;
                 }
+                kursi[5].setEnabled(false);
                 labelGerbong.setText("Gerbong " + currentGerbong);
+                //for(int i = 0; i < maxKursi; i++){
+                //    frame.remove(kursi[i]);
+                //    kursiKosong[i+39] = false;
+                //    kursi[i+39] = new JCheckBox();
+                //    frame.add(kursi[i+39]);
+                //}
                 break;
             case "Previous Gerbong":
+                frame.add(labelGerbong);
                 currentGerbong--;
                 if(currentGerbong <= 0){
                     currentGerbong = gerbong;
