@@ -6,7 +6,8 @@
 package View;
 
 import Controller.UserManager;
-import Controller.cekLogin;
+//import Controller.LoginController;
+import Model.Users;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -75,6 +76,13 @@ public class MenuLogin implements ActionListener{
             case "Submit":
                 String user = textUsername.getText();
                 String pass = new String(textPassword.getPassword());
+                
+                Users users = new Users();
+                users.setUsername(user);
+                users.setPassword(pass);
+                
+                UserManager.getInstance().setUser(users);
+                
                 if(UserManager.getInstance().getUser().cekLogin(user, pass)){
                     if(UserManager.getInstance().getUser().cekAdmin()){
                         new MenuAdmin();

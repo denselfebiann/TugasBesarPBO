@@ -7,7 +7,7 @@ package View;
 
 import Controller.DatabaseControl;
 import Controller.KeretaManager;
-import Controller.cekLogin;
+import Controller.LoginController;
 import Model.Kereta;
 import Model.Pesanan;
 import java.awt.Font;
