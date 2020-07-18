@@ -66,6 +66,7 @@ public class MenuMember implements ActionListener{
                 new MenuOrder();
                 break;
             case "Langganan":
+                new MenuLangganan();
                 break;
             case "My Orders":
                 new MenuMyOrders();

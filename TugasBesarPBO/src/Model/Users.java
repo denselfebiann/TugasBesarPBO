@@ -27,7 +27,14 @@ public class Users {
     private String kota;
     private String KTP;
     private int tipeUser;
+    private int pointLangganan = 0;
 
+    public int getPointLangganan() {
+        return pointLangganan;
+    }
+    public void setPointLangganan(int pointLangganan) {
+        this.pointLangganan = pointLangganan;
+    }
     public String getKota(){
         return kota;
     }
