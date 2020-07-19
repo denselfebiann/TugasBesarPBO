@@ -13,7 +13,7 @@ import Controller.UserManager;
 import Model.Kereta;
 import Model.KeretaJadwal;
 import Model.Pesanan;
-import Model.extPesanan;
+import Model.ExtPesanan;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Font;
@@ -36,8 +36,8 @@ import javax.swing.JPanel;
 public class MenuOrder{
     JLabel labelRute, judul, note, labelTanggal, labelJam, labelDeparture;
     JComboBox rute, tanggal, jam, departure;
-    JButton submit;
-    JFrame frame = new JFrame();
+    JButton submit, back;
+    JFrame frame = new JFrame("Menu Order");
     DatabaseControl controller = new DatabaseControl();
     ArrayList<Kereta> Allkereta = controller.getAllKereta();
 
@@ -210,12 +210,12 @@ public class MenuOrder{
             }
         });
         submit = new JButton("Submit");
-        submit.setBounds(150, 200, 400, 25);
+        submit.setBounds(150, 200, 430, 25);
         submit.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 switch(e.getActionCommand()){
                     case "Submit":
-                        Pesanan pesanan = new extPesanan();
+                        Pesanan pesanan = new ExtPesanan();
                         pesanan.setDepartureDipilih(departure.getSelectedItem().toString());
                         for(int i = 0; i < rute.getSelectedItem().toString().length(); i++){
                             String rut = rute.getSelectedItem().toString();
@@ -236,6 +236,18 @@ public class MenuOrder{
                 }       
             }
         });
+        back = new JButton("Back");
+        back.setBounds(250, 250, 230, 25);
+        back.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch(e.getActionCommand()){
+                    case "Back":
+                        new MenuMember();
+                        break;
+                }
+            }
+        });
         Garis garis = new Garis();
 
         frame.add(judul);
@@ -248,6 +260,7 @@ public class MenuOrder{
         frame.add(tanggal);
         frame.add(jam);
         frame.add(submit);
+        frame.add(back);
         frame.add(garis);
         //frame.setLayout(null);
         frame.setLocationRelativeTo(null);

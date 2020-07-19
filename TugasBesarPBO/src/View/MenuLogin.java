@@ -25,11 +25,10 @@ public class MenuLogin implements ActionListener{
     JTextField textUsername;
     JPasswordField textPassword;
     JButton submit, cancel, register;
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Menu Login");
     public MenuLogin(){
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
-        frame.setTitle("Login");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

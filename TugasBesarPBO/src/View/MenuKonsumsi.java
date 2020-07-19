@@ -12,7 +12,7 @@ import Controller.UserManager;
 import Model.Konsumsi;
 import Model.Member;
 import Model.Pesanan;
-import Model.extPesanan;
+import Model.ExtPesanan;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,11 +30,11 @@ import javax.swing.JTextField;
  * @author dense
  */
 public class MenuKonsumsi implements ActionListener{
-    JFrame frame;
+    JFrame frame = new JFrame("Menu Konsumsi");
     JLabel labelKonsumsi, labelMakanan, labelMinuman;
     JLabel[] namaMakanan, namaMinuman, hargaMakanan, hargaMinuman;
     JComboBox[] banyakMakanan, banyakMinuman;
-    JButton submit;
+    JButton submit, back;
     DatabaseControl controller = new DatabaseControl();
     ArrayList<Konsumsi> konsumsi = controller.getAllKonsumsi();
     int jumlahMakanan = 0, jumlahMinuman = 0;
@@ -42,7 +42,6 @@ public class MenuKonsumsi implements ActionListener{
     public MenuKonsumsi(){
         int pilih = JOptionPane.showConfirmDialog(null, "Wanna Buy some Food?");
         if(pilih == JOptionPane.YES_OPTION){
-            frame = new JFrame("Menu Konsumsi");
             frame.setSize(800, 600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             
@@ -131,11 +130,15 @@ public class MenuKonsumsi implements ActionListener{
             labelMinuman.setFont(new Font(labelMinuman.getFont().getName(), labelMinuman.getFont().getStyle(), 22));
             
             submit = new JButton("Submit");
-            submit.setBounds(650, 520, 100, 25);
+            submit.setBounds(650, 480, 100, 25);
             submit.addActionListener(this);
+            back = new JButton("Back");
+            back.setBounds(650, 520, 100, 25);
+            back.addActionListener(this);
             Garis garis = new Garis();
             
             frame.add(submit);
+            frame.add(back);
             frame.add(labelKonsumsi);
             frame.add(labelMakanan);
             frame.add(labelMinuman);
@@ -143,7 +146,12 @@ public class MenuKonsumsi implements ActionListener{
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         }else{
-            
+            Pesanan pesanan = PesananManager.getInstance().getPesanan();
+            ExtPesanan a = (ExtPesanan)pesanan;
+            a.setTotalHargaKonsumsi(0);
+            a.setTotalHarga(a.getTotalHargaTiket());
+            PesananManager.getInstance().setPesanan(a);
+            new MenuPembayaran();
         }
     }
 
@@ -165,10 +173,23 @@ public class MenuKonsumsi implements ActionListener{
                     }
                 }
                 Pesanan pesanan = PesananManager.getInstance().getPesanan();
-                extPesanan a = (extPesanan)pesanan;
+                ExtPesanan a = (ExtPesanan)pesanan;
                 a.setKonsumsi(allKonsumsi);
-                PesananManager.getInstance().setPesanan(a);
                 
+                int total = 0;
+                for(int i = 0; i < allKonsumsi.size(); i++){
+                    total += (allKonsumsi.get(i).getHargaSatuan() * allKonsumsi.get(i).getJumlah());
+                }
+                a.setTotalHargaKonsumsi(total);
+                total += a.getTotalHargaTiket();
+                a.setTotalHarga(total);
+                PesananManager.getInstance().setPesanan(a);
+                frame.setVisible(false);
+                new MenuPembayaran();
+                break;
+            case "Back":
+                frame.setVisible(false);
+                new MenuOrder();
                 break;
         }
     }

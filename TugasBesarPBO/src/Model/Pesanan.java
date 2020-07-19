@@ -20,11 +20,13 @@ public class Pesanan {
     private int banyakKursiDipilih;
     private int hargaTiket;
     private int totalHargaTiket;
+    private int totalHargaKonsumsi;
     private int totalHarga;
     
     public Pesanan(){
     }
-    public Pesanan(int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+    public Pesanan(int totalHargaKonsumsi, int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+        this.totalHargaKonsumsi = totalHargaKonsumsi;
         this.orderID = orderID;
         this.scheduleID = scheduleID;
         this.departureDipilih = departureDipilih;
@@ -34,7 +36,12 @@ public class Pesanan {
         this.totalHargaTiket = totalHargaTiket;
         this.totalHarga = totalHarga;
     }
-    
+    public int getTotalHargaKonsumsi(){
+        return totalHargaKonsumsi;
+    }
+    public void setTotalHargaKonsumsi(int totalHargaKonsumsi){
+        this.totalHargaKonsumsi = totalHargaKonsumsi;
+    }
     public int getOrderID(){
         return orderID;
     }

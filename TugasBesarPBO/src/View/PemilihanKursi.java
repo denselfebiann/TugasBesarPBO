@@ -11,7 +11,7 @@ import Controller.PesananManager;
 import Controller.cekLogin;
 import Model.Kereta;
 import Model.Pesanan;
-import Model.extPesanan;
+import Model.ExtPesanan;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +29,9 @@ import javax.swing.JTextField;
  * @author dense
  */
 public class PemilihanKursi implements ActionListener{
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Pemilihan Kursi");
     JLabel labelGerbong;
-    JButton submit, nextGerbong, previousGerbong;
+    JButton submit, back, nextGerbong, previousGerbong;
     DatabaseControl controller = new DatabaseControl();
     
     int maxKursi = 40;
@@ -69,15 +69,17 @@ public class PemilihanKursi implements ActionListener{
         nextGerbong = new JButton("Next Gerbong");
         previousGerbong = new JButton("Previous Gerbong");
         submit = new JButton("Submit");
+        back = new JButton("Back");
         
         labelGerbong.setBounds(310, 10, 200, 35);
         nextGerbong.setBounds(500, 10, 200,  35);
         previousGerbong.setBounds(50, 10, 200, 35);
         submit.setBounds(330, 350, 100, 20);
-        
+        back.setBounds(330, 400, 100, 20);
         nextGerbong.addActionListener(this);
         previousGerbong.addActionListener(this);
         submit.addActionListener(this);
+        back.addActionListener(this);
         
         labelGerbong.setFont(new Font(labelGerbong.getFont().getName(), labelGerbong.getFont().getStyle(), 28));
         
@@ -106,6 +108,7 @@ public class PemilihanKursi implements ActionListener{
         }
         
         frame.add(submit);
+        frame.add(back);
         frame.add(nextGerbong);
         frame.add(previousGerbong);
         frame.add(labelGerbong);
@@ -144,7 +147,7 @@ public class PemilihanKursi implements ActionListener{
                 Pesanan pesanan = PesananManager.getInstance().getPesanan();
                 int harga = pesanan.getHargaTiket();
                 harga = harga * banyakPilih;
-                extPesanan a = (extPesanan)pesanan;
+                ExtPesanan a = (ExtPesanan)pesanan;
                 a.setKursiDipilih(dipilih);
                 a.setDetailKereta(kereta);
                 a.setGerbong(Integer.toString(gerbong));
@@ -153,6 +156,10 @@ public class PemilihanKursi implements ActionListener{
                 PesananManager.getInstance().setPesanan(a);
                 frame.setVisible(false);
                 new MenuKonsumsi();
+                break;
+            case "Back":
+                frame.setVisible(false);
+                new MenuOrder();
                 break;
         }
     }
