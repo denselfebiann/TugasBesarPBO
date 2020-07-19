@@ -186,10 +186,23 @@ public class DatabaseControl {
         }
         return kereta;
     }
+    public static boolean updateKursi(int nomorKursi, int scheduleID){
+        conn.connect();
+
+        String query = "UPDATE kursi SET status = 'true' WHERE nomorKursi = " + nomorKursi + " and scheduleID = " + scheduleID;
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
     public static ArrayList<Boolean> getKursi(int scheduleID){
         ArrayList<Boolean> kursi = new ArrayList<>();
         conn.connect();
-        String query = "SELECT * FORM kursi WEHERE scheduleID = " + scheduleID;
+        String query = "SELECT * FROM kursi WHERE scheduleID = " + scheduleID;
         try{
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -211,6 +224,7 @@ public class DatabaseControl {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 KeretaJadwal jadwal = new KeretaJadwal();
+                jadwal.setHargaTiket(rs.getInt("HargaTiket"));
                 jadwal.setScheduleID(rs.getInt("scheduleID"));
                 jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
@@ -233,6 +247,7 @@ public class DatabaseControl {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
+                jadwal.setHargaTiket(rs.getInt("HargaTiket"));
                 jadwal.setScheduleID(rs.getInt("scheduleID"));
                 jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
@@ -245,6 +260,27 @@ public class DatabaseControl {
             e.printStackTrace();
         }
         return jadwal;
+    }
+    public static ArrayList<Konsumsi> getAllKonsumsi(){
+        ArrayList<Konsumsi> allKonsumsi = new ArrayList<>();
+        conn.connect();
+        String query = "SELECT * FROM konsumsi";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Konsumsi konsumsi = new Konsumsi();
+                konsumsi.setIdKonsumsi(rs.getInt("produkID"));
+                konsumsi.setNamaProduk(rs.getString("namaProduk"));
+                konsumsi.setTipe(rs.getString("type"));
+                konsumsi.setJumlah(rs.getInt("jumlah"));
+                konsumsi.setHargaSatuan(rs.getInt("harga"));
+                allKonsumsi.add(konsumsi);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return allKonsumsi;
     }
     public static boolean insertNewPesanan(int userID, int scheduleID, String tanggal, String kursi, int hargaTiket, String langganan, String konsumsi, int hargaKonsumsi, int jumlahKonsumsi, int totalHargaTiket, int totalHargaKonsumsi, int totalHarga){
         conn.connect();

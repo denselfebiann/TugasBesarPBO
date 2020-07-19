@@ -20,8 +20,12 @@ public class extPesanan extends Pesanan{
     private String gerbong;
     private String kursiDipilih;
     private ArrayList<Konsumsi> konsumsi;
-
-    public extPesanan() {
+    
+    public extPesanan(){
+        
+    }
+    public extPesanan(int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+        super(orderID, scheduleID, departureDipilih, tanggal, banyakKursiDipilih, hargaTiket, totalHargaTiket, totalHarga);
     }
 
     public Kereta getDetailKereta() {

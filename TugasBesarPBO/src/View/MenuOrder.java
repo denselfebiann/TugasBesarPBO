@@ -13,6 +13,7 @@ import Controller.UserManager;
 import Model.Kereta;
 import Model.KeretaJadwal;
 import Model.Pesanan;
+import Model.extPesanan;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Font;
@@ -79,7 +80,7 @@ public class MenuOrder{
             }
         }
         Date berikut = new Date();
-        SimpleDateFormat dn = new SimpleDateFormat("dd-MM-yy");
+        SimpleDateFormat dn = new SimpleDateFormat("dd-MM-yyyy");
         String date = dn.format(berikut);
         int hari = Integer.parseInt(date.substring(0, 2));
         int bulan = Integer.parseInt(date.substring(3, 5));
@@ -199,6 +200,7 @@ public class MenuOrder{
                             String cek2 = str.substring(i+1, str.length());
                             jadwal = controller.getJadwal(cek1, cek2);
                             kereta = controller.getKereta(jadwal.getKeretaID(), jadwal.getDeparture());
+                            KeretaManager.getInstance().setKereta(kereta);
                             String j = jadwal.getJamDepart() + "-" + jadwal.getJamArrive();
                             jam.addItem(j);
                         }
@@ -213,8 +215,7 @@ public class MenuOrder{
             public void actionPerformed(ActionEvent e){
                 switch(e.getActionCommand()){
                     case "Submit":
-                        KeretaManager.getInstance().setKereta(kereta);
-                        Pesanan pesanan = new Pesanan();
+                        Pesanan pesanan = new extPesanan();
                         pesanan.setDepartureDipilih(departure.getSelectedItem().toString());
                         for(int i = 0; i < rute.getSelectedItem().toString().length(); i++){
                             String rut = rute.getSelectedItem().toString();
@@ -224,6 +225,8 @@ public class MenuOrder{
                                 String cek2 = rut.substring(i+1, rut.length());
                                 KeretaJadwal jadwal = controller.getJadwal(cek1, cek2);
                                 pesanan.setScheduleID(jadwal.getScheduleID());
+                                pesanan.setHargaTiket(jadwal.getHargaTiket());
+                                pesanan.setTanggal(tanggal.getSelectedItem().toString());
                             }
                         }
                         frame.setVisible(false);

@@ -42,6 +42,7 @@ public class CreateTable{
             stm.execute(sql);
             
             sql = "CREATE TABLE kereta(" + 
+"                   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 "                   keretaID INT NOT NULL," +
 "                   gerbong INT NOT NULL," + 
 "                   jumlahKursi INT NOT NULL" + 
@@ -50,7 +51,7 @@ public class CreateTable{
             stm.execute(sql);
             
             sql = "CREATE TABLE jadwalRuteHarga(" +
-"                   scheduleID INT NOT NULL," +
+"                   scheduleID INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 "                   keretaID INT NOT NULL," +
 "                   ruteAwal VARCHAR(100) NOT NULL," +
 "                   ruteAkhir VARCHAR(100) NOT NULL," +
@@ -75,12 +76,21 @@ public class CreateTable{
             stm.execute(sql);
             
             sql = "CREATE TABLE konsumsi(" +
-"                   produkID INT NOT NULL," +
+"                   produkID INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 "                   namaProduk VARCHAR(100) NOT NULL," +
+"                   type VARCHAR(100) NOT NULL," +
+"                   jumlah INT NOT NULL," +
 "                   harga INT NOT NULL" +
 "                 )";
             stm.execute(sql);
             
+            sql = "CREATE TABLE kursi(" +
+"                   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
+"                   nomorKursi INT NOT NULL," +
+"                   scheduleID INT NOT NULL," +
+"                   status VARCHAR(100) NOT NULL" +
+"                 )";
+            stm.execute(sql);
             sql = "CREATE TABLE pesanan(" +
 "                   orderID INT NOT NULL," + 
 "                   userID INT NOT NULL," + 

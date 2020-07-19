@@ -11,6 +11,7 @@ import Controller.PesananManager;
 import Controller.cekLogin;
 import Model.Kereta;
 import Model.Pesanan;
+import Model.extPesanan;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,9 @@ public class PemilihanKursi implements ActionListener{
     int banyakKursi;
     int currentGerbong = 1;
     int gerbong;
+    int banyakPilih;
+    int counterKosong = 0, counterIsi = 0;
+    String dipilih = "";
     
     JCheckBox[] kursi;
     JLabel[] kursiTerisi;
@@ -44,7 +48,7 @@ public class PemilihanKursi implements ActionListener{
     Kereta kereta = KeretaManager.getInstance().getKereta();
     ArrayList<Boolean> k = controller.getKursi(PesananManager.getInstance().getPesanan().getScheduleID());
     
-    public PemilihanKursi(Pesanan pesanan){
+    public PemilihanKursi(){
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Pemilihan Kursi");
@@ -52,7 +56,7 @@ public class PemilihanKursi implements ActionListener{
         int x = 50, y = 60, z = 0;
         gerbong = kereta.getGerbong();
         
-        banyakKursi = kereta.getJumlahKursi();
+        banyakKursi = k.size();
         kursi = new JCheckBox[banyakKursi];
         kursiTerisi = new JLabel[banyakKursi];
         kursiKosong = new boolean[banyakKursi];
@@ -76,19 +80,18 @@ public class PemilihanKursi implements ActionListener{
         submit.addActionListener(this);
         
         labelGerbong.setFont(new Font(labelGerbong.getFont().getName(), labelGerbong.getFont().getStyle(), 28));
-
-        for(int i = 0; i < (maxKursi * currentGerbong); i++){
-            kursiKosong[i] = false;
-            kursiKosong[10] = true;
+        
+        for(int i = 0; i < maxKursi; i++){
             if(!kursiKosong[i]){
-                kursi[i] = new JCheckBox();
-                kursi[i].setBounds(x, y, 50, 50);
-                System.out.println(i);
-                frame.add(kursi[i]);
+                kursi[counterKosong] = new JCheckBox();
+                kursi[counterKosong].setBounds(x, y, 50, 50);
+                frame.add(kursi[counterKosong]);
+                counterKosong++;
             }else{
-                kursiTerisi[i] = new JLabel("X");
-                kursiTerisi[i].setBounds(x+5, y, 50, 50);
-                frame.add(kursiTerisi[i]);
+                kursiTerisi[counterIsi] = new JLabel("X");
+                kursiTerisi[counterIsi].setBounds(x+5, y, 50, 50);
+                frame.add(kursiTerisi[counterIsi]);
+                counterIsi++;
             }
             x += 70;
             if(x > 700){
@@ -118,14 +121,7 @@ public class PemilihanKursi implements ActionListener{
                 if(currentGerbong > gerbong){
                     currentGerbong = 1;
                 }
-                kursi[5].setEnabled(false);
                 labelGerbong.setText("Gerbong " + currentGerbong);
-                //for(int i = 0; i < maxKursi; i++){
-                //    frame.remove(kursi[i]);
-                //    kursiKosong[i+39] = false;
-                //    kursi[i+39] = new JCheckBox();
-                //    frame.add(kursi[i+39]);
-                //}
                 break;
             case "Previous Gerbong":
                 frame.add(labelGerbong);
@@ -136,6 +132,27 @@ public class PemilihanKursi implements ActionListener{
                 labelGerbong.setText("Gerbong " + currentGerbong);
                 break;
             case "Submit":
+                for(int i = 0; i < counterKosong; i++){
+                    if(kursi[i].isSelected()){
+                        kursiKosong[i] = true;
+                        dipilih += (i+1) + " ";
+                        banyakPilih++;
+                        controller.updateKursi(i+1, PesananManager.getInstance().getPesanan().getScheduleID());
+                        System.out.println(dipilih);
+                    }
+                }
+                Pesanan pesanan = PesananManager.getInstance().getPesanan();
+                int harga = pesanan.getHargaTiket();
+                harga = harga * banyakPilih;
+                extPesanan a = (extPesanan)pesanan;
+                a.setKursiDipilih(dipilih);
+                a.setDetailKereta(kereta);
+                a.setGerbong(Integer.toString(gerbong));
+                a.setKursi(banyakPilih);
+                a.setTotalHargaTiket(harga);
+                PesananManager.getInstance().setPesanan(a);
+                frame.setVisible(false);
+                new MenuKonsumsi();
                 break;
         }
     }

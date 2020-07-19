@@ -17,11 +17,24 @@ public class Pesanan {
     private int scheduleID;
     private String departureDipilih;
     private String tanggal;
-    private String kursi;
+    private int banyakKursiDipilih;
     private int hargaTiket;
     private int totalHargaTiket;
     private int totalHarga;
-
+    
+    public Pesanan(){
+    }
+    public Pesanan(int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+        this.orderID = orderID;
+        this.scheduleID = scheduleID;
+        this.departureDipilih = departureDipilih;
+        this.tanggal = tanggal;
+        this.banyakKursiDipilih = banyakKursiDipilih;
+        this.hargaTiket = hargaTiket;
+        this.totalHargaTiket = totalHargaTiket;
+        this.totalHarga = totalHarga;
+    }
+    
     public int getOrderID(){
         return orderID;
     }
@@ -46,11 +59,11 @@ public class Pesanan {
     public void setTanggal(String tanggal){
         this.tanggal = tanggal;
     }
-    public String getKursi(){
-        return kursi;
+    public int getKursi(){
+        return banyakKursiDipilih;
     }
-    public void setKursi(String kursi){
-        this.kursi = kursi;
+    public void setKursi(int banyakKursiDipilih){
+        this.banyakKursiDipilih = banyakKursiDipilih;
     }
     public int getHargaTiket(){
         return hargaTiket;
