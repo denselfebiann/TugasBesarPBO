@@ -37,6 +37,8 @@ public class CreateTable{
 "                   telepon VARCHAR(100) NOT NULL," +
 "                   email VARCHAR(255) NOT NULL," +
 "                   KTP VARCHAR(255) NOT NULL," +
+"                   pointLangganan VARCHAR(255) NOT NULL," +
+"                   giftRide VARCHAR(255) NOT NULL," +
 "                   tipeUser INT NOT NULL" +
 "                 )";
             stm.execute(sql);
@@ -45,7 +47,7 @@ public class CreateTable{
 "                   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 "                   keretaID INT NOT NULL," +
 "                   gerbong INT NOT NULL," + 
-"                   jumlahKursi INT NOT NULL" + 
+"                   jumlahKursi INT NOT NULL," + 
 "                   departure VARCHAR(100) NOT NULL" +
 "                 )";
             stm.execute(sql);
@@ -56,7 +58,7 @@ public class CreateTable{
 "                   departure VARCHAR(100) NOT NULL," +
 "                   ruteAwal VARCHAR(100) NOT NULL," +
 "                   ruteAkhir VARCHAR(100) NOT NULL," +
-"                   jamBerangkat VARCHAR(100) NOT ULL," +
+"                   jamBerangkat VARCHAR(100) NOT NULL," +
 "                   jamSampai VARCHAR(100) NOT NULL," +
 "                   HargaTiket INT NOT NULL" +
 "                 )";
@@ -101,7 +103,6 @@ public class CreateTable{
 "                   tanggal VARCHAR(100) NOT NULL," + 
 "                   kursi VARCHAR(100) NOT NULL," + 
 "                   hargaTiket INT NOT NULL," + 
-"                   langganan VARCHAR(100) NOT NULL," +
 "                   totalHargaTiket INT NOT NULL," +
 "                   totalHargaKonsumsi INT NOT NULL," + 
 "                   totalHarga INT NOT NULL" +

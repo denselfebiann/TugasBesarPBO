@@ -36,6 +36,18 @@ public class Pesanan {
         this.totalHargaTiket = totalHargaTiket;
         this.totalHarga = totalHarga;
     }
+
+    public Pesanan(int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+        this.orderID = orderID;
+        this.scheduleID = scheduleID;
+        this.departureDipilih = departureDipilih;
+        this.tanggal = tanggal;
+        this.banyakKursiDipilih = banyakKursiDipilih;
+        this.hargaTiket = hargaTiket;
+        this.totalHargaTiket = totalHargaTiket;
+        this.totalHarga = totalHarga;
+    }
+    
     public int getTotalHargaKonsumsi(){
         return totalHargaKonsumsi;
     }

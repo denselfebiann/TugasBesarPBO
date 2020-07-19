@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 /**
  *
@@ -300,7 +300,7 @@ public class DatabaseControl {
     public static boolean insertNewPesanan(int userID, Pesanan pesanan){
         conn.connect();
         ExtPesanan a = (ExtPesanan)pesanan;
-        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO pesanan VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
@@ -315,7 +315,9 @@ public class DatabaseControl {
             stmt.setInt(10, a.getTotalHargaKonsumsi());
             stmt.setInt(11, a.getTotalHarga());
             stmt.executeUpdate();
-            insertNewPesananKonsumsi(a);
+            if(a.getKonsumsi()!=null){
+                insertNewPesananKonsumsi(a);
+            }
             return (true);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -359,5 +361,118 @@ public class DatabaseControl {
             e.printStackTrace();
         }
         return allPembayaran;
+    }
+    public ArrayList<Orders> getPesanan(int userID){
+        conn.connect();
+        ArrayList<Orders> listOrders = new ArrayList<>();
+        String query = "SELECT * FROM pesanan WHERE userID='" + userID + "'";
+        
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                Orders orders = new Orders();
+                
+                orders.setOrderID(rs.getString("orderID"));
+                orders.setDeparture(rs.getString("departureDipilih"));
+                orders.setTanggal(rs.getString("tanggal"));
+                orders.setKursi(rs.getString("kursi"));
+                orders.setHargaTiket(rs.getString("hargaTiket"));
+                orders.setLangganan(rs.getString("langganan"));
+                orders.setTotalHarga(rs.getString("totalHarga"));
+                
+                String scheduleID = rs.getString("scheduleID");
+                
+                query="SELECT * FROM jadwalRuteHarga WHERE scheduleID='" + scheduleID + "'";
+                try{
+                    stmt = conn.con.createStatement();
+                    rs = stmt.executeQuery(query);
+                    
+                    while(rs.next()){
+                        orders.setArrival(rs.getString("ruteAkhir"));
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+//                orders.setArrival(rs.getString("arrivalDipilih"));
+
+                listOrders.add(orders);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listOrders;
+    }
+    public ArrayList<Orders> getAllPesanan(int userID){
+        conn.connect();
+        ArrayList<Orders> listOrders = new ArrayList<>();
+        String query = "SELECT * FROM pesanan ";
+        
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                Orders orders = new Orders();
+                
+                orders.setOrderID(rs.getString("orderID"));
+                orders.setDeparture(rs.getString("departureDipilih"));
+                orders.setTanggal(rs.getString("tanggal"));
+                orders.setKursi(rs.getString("kursi"));
+                orders.setHargaTiket(rs.getString("hargaTiket"));
+                orders.setLangganan(rs.getString("langganan"));
+                orders.setTotalHarga(rs.getString("totalHarga"));
+                
+                String scheduleID = rs.getString("scheduleID");
+                
+                query="SELECT * FROM jadwalRuteHarga WHERE scheduleID='" + scheduleID + "'";
+                try{
+                    stmt = conn.con.createStatement();
+                    rs = stmt.executeQuery(query);
+                    
+                    while(rs.next()){
+                        orders.setArrival(rs.getString("ruteAkhir"));
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                listOrders.add(orders);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listOrders;
+    }
+    
+    public static boolean updateMemberPoint(int userID, int newPoint){
+        conn.connect();
+        String query = "UPDATE User SET pointLangganan='" + newPoint + "' "
+                + " WHERE userID='" + userID + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+        
+    }
+    public static boolean updateMemberVoucher(int userID, int newVoucher){
+        conn.connect();
+        String query = "UPDATE User SET giftRide='" + newVoucher + "' "
+                + " WHERE userID='" + userID + "'";
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+        
     }
 }

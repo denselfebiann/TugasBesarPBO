@@ -9,8 +9,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.applet.Main;
-import sun.util.logging.PlatformLogger;
+//import sun.applet.Main;
+//import sun.util.logging.PlatformLogger;
 
 /**
  *
@@ -30,7 +30,7 @@ public class Convert {
             }
             digest = sb.toString();
         }catch(Exception e){
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, e);
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, e);
         }
         return digest;
     }

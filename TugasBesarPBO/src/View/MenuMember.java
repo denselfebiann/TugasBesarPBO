@@ -66,9 +66,12 @@ public class MenuMember implements ActionListener{
                 new MenuOrder();
                 break;
             case "Langganan":
+                frame.setVisible(false);
+                new MenuLangganan();
                 break;
             case "My Orders":
-                new MenuMyOrders();
+                frame.setVisible(false);
+                new MenuMyOrders(UserManager.getInstance().getUser().getIdUser());
                 break;
         }
     }

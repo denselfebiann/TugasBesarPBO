@@ -12,6 +12,7 @@ import Controller.UserManager;
 import Model.ExtPesanan;
 import Model.Pembayaran;
 import Model.Pesanan;
+import Model.Users;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +36,7 @@ public class MenuPembayaran implements ActionListener{
     JComboBox metode;
     JButton submit;
     String[] method;
+    Users user = UserManager.getInstance().getUser();
     int banyakMetode, banyakKonsumsi;
     ArrayList<Pembayaran> allPembayaran = new ArrayList<>();
     DatabaseControl controller = new DatabaseControl();
@@ -94,6 +96,16 @@ public class MenuPembayaran implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i < allPembayaran.size(); i++){
+                    //added
+                    if(allPembayaran.get(i).getMetodePembayaran().equals("Voucher")){
+                        if(user.getGiftRide()>0){
+                            user.setGiftRide(user.getGiftRide()-1);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Voucher tidak ada");
+                            new MenuPembayaran();
+                        }
+                    }
+                    //ended
                     if(allPembayaran.get(i).getMetodePembayaran().equals(metode.getSelectedItem())){
                         labelDiskon[0].setText("Diskon: " + allPembayaran.get(i).getDiskon() + "% =>");
                         float diskon = PesananManager.getInstance().getPesanan().getTotalHarga() * (Float.valueOf(allPembayaran.get(i).getDiskon()) / 100);
@@ -179,6 +191,10 @@ public class MenuPembayaran implements ActionListener{
                 a.setTotalHarga(temp);
                 if(controller.insertNewPesanan(UserManager.getInstance().getUser().getIdUser(), a)){
                     JOptionPane.showMessageDialog(null, "Pesanan Berhasil!!");
+                    user.setPointLangganan(user.getPointLangganan() + (temp/10));
+                    user.updatePointDatabase();
+                    user.updateVoucherDatabase();
+                    frame.setVisible(false);
                     new MenuMember();
                 }
                 break;

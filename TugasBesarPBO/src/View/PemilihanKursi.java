@@ -34,7 +34,7 @@ public class PemilihanKursi implements ActionListener{
     JButton submit, back, nextGerbong, previousGerbong;
     DatabaseControl controller = new DatabaseControl();
     
-    int maxKursi = 40;
+    int maxKursi = 10;//40;
     int banyakKursi;
     int currentGerbong = 1;
     int gerbong;

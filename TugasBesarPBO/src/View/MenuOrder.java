@@ -14,8 +14,8 @@ import Model.Kereta;
 import Model.KeretaJadwal;
 import Model.Pesanan;
 import Model.ExtPesanan;
-import com.toedter.calendar.JDateChooser;
-import java.awt.Color;
+//import com.toedter.calendar.JDateChooser;
+//import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -69,7 +69,7 @@ public class MenuOrder{
         }
         isiDeparture = new String[banyakDeparture];
         isiDeparture[0] = Allkereta.get(0).getDeparture();
-        for(int i = 0; i < Allkereta.size(); i++){
+        for(int i = 0; i < banyakDeparture; i++){
             for(int j = 0; j < i; j++){
                 if(isiDeparture[j].equals(Allkereta.get(i).getDeparture())){
                     ketemu = true;
@@ -243,6 +243,7 @@ public class MenuOrder{
             public void actionPerformed(ActionEvent e) {
                 switch(e.getActionCommand()){
                     case "Back":
+                        frame.setVisible(false);
                         new MenuMember();
                         break;
                 }
