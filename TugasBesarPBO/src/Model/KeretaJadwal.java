@@ -10,6 +10,7 @@ package Model;
  * @author MelvinS
  */
 public class KeretaJadwal {
+    private int hargaTiket;
     private String lokasiDepart;
     private String lokasiArrive;
     private String jamDepart;
@@ -18,6 +19,12 @@ public class KeretaJadwal {
     private int scheduleID;
     private String departure;
     
+    public int getHargaTiket(){
+        return hargaTiket;
+    }
+    public void setHargaTiket(int hargaTiket){
+        this.hargaTiket = hargaTiket;
+    }
     public String getDeparture(){
         return departure;
     }

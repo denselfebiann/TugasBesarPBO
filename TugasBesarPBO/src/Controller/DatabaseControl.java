@@ -190,7 +190,37 @@ public class DatabaseControl {
         }
         return kereta;
     }
-    
+
+    public static boolean updateKursi(int nomorKursi, int scheduleID){
+        conn.connect();
+
+        String query = "UPDATE kursi SET status = 'true' WHERE nomorKursi = " + nomorKursi + " and scheduleID = " + scheduleID;
+        try {
+            Statement stmt = conn.con.createStatement();
+            stmt.executeUpdate(query);
+            return (true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (false);
+        }
+    }
+    public static ArrayList<Boolean> getKursi(int scheduleID){
+        ArrayList<Boolean> kursi = new ArrayList<>();
+        conn.connect();
+        String query = "SELECT * FROM kursi WHERE scheduleID = " + scheduleID;
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                String k = rs.getString("status");
+                kursi.add(Boolean.parseBoolean(k));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return kursi;
+    }
+  
     public static ArrayList<KeretaJadwal>getAllJadwal(String departure){
         ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
         conn.connect();
@@ -200,6 +230,7 @@ public class DatabaseControl {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 KeretaJadwal jadwal = new KeretaJadwal();
+                jadwal.setHargaTiket(rs.getInt("HargaTiket"));
                 jadwal.setScheduleID(rs.getInt("scheduleID"));
                 jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
@@ -223,6 +254,7 @@ public class DatabaseControl {
             Statement stmt = conn.con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
+                jadwal.setHargaTiket(rs.getInt("HargaTiket"));
                 jadwal.setScheduleID(rs.getInt("scheduleID"));
                 jadwal.setKeretaID(rs.getInt("keretaID"));
                 jadwal.setJamDepart(rs.getString("jamBerangkat"));
@@ -332,30 +364,104 @@ public class DatabaseControl {
         
         return listOrders;
     }
-    
-    public static boolean insertNewPesanan(int userID, int scheduleID, String tanggal, String kursi, int hargaTiket, String langganan, String konsumsi, int hargaKonsumsi, int jumlahKonsumsi, int totalHargaTiket, int totalHargaKonsumsi, int totalHarga){
+
+    public static ArrayList<Konsumsi> getAllKonsumsi(){
+        ArrayList<Konsumsi> allKonsumsi = new ArrayList<>();
         conn.connect();
-        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "SELECT * FROM konsumsi";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Konsumsi konsumsi = new Konsumsi();
+                konsumsi.setIdKonsumsi(rs.getInt("produkID"));
+                konsumsi.setNamaProduk(rs.getString("namaProduk"));
+                konsumsi.setTipe(rs.getString("type"));
+                konsumsi.setJumlah(rs.getInt("jumlah"));
+                konsumsi.setHargaSatuan(rs.getInt("harga"));
+                allKonsumsi.add(konsumsi);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return allKonsumsi;
+    }
+    public static int getOrderID(ExtPesanan a){
+        conn.connect();
+        int orderID = 0;
+        String query = "SELECT orderID FROM pesanan ORDER BY orderID DESC LIMIT 1";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                orderID = rs.getInt("orderID");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return orderID;
+    }
+    public static boolean insertNewPesanan(int userID, Pesanan pesanan){
+        conn.connect();
+        ExtPesanan a = (ExtPesanan)pesanan;
+        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
             stmt.setInt(2, userID);
-            stmt.setInt(3, scheduleID);
-            stmt.setString(4, tanggal);
-            stmt.setString(5, kursi);
-            stmt.setInt(6, hargaTiket);
-            stmt.setString(7, langganan);
-            stmt.setString(8, konsumsi);
-            stmt.setInt(9, hargaKonsumsi);
-            stmt.setInt(10, jumlahKonsumsi);
-            stmt.setInt(11, totalHargaTiket);
-            stmt.setInt(12, totalHargaKonsumsi);
-            stmt.setInt(13, totalHarga);
+            stmt.setInt(3, a.getScheduleID());
+            stmt.setString(4, a.getDepartureDipilih());
+            stmt.setString(5, a.getTanggal());
+            stmt.setString(6, a.getKursiDipilih());
+            stmt.setInt(7, a.getHargaTiket());
+            stmt.setString(8, "");
+            stmt.setInt(9, a.getTotalHargaTiket());
+            stmt.setInt(10, a.getTotalHargaKonsumsi());
+            stmt.setInt(11, a.getTotalHarga());
             stmt.executeUpdate();
+            insertNewPesananKonsumsi(a);
             return (true);
         } catch (SQLException e) {
             e.printStackTrace();
             return (false);
         }
+    }
+    public static boolean insertNewPesananKonsumsi(ExtPesanan a){
+        conn.connect();
+        ArrayList<Konsumsi> allKonsumsi = a.getKonsumsi();
+        for(int i = 0; i < allKonsumsi.size(); i++){
+            String query = "INSERT INTO pesananKonsumsi VALUES(?, ?, ?, ?, ?)";
+            try{
+                PreparedStatement stmt = conn.con.prepareStatement(query);
+                stmt.setInt(1, 0);
+                stmt.setInt(2, getOrderID(a));
+                stmt.setString(3, allKonsumsi.get(i).getNamaProduk());
+                stmt.setInt(4, allKonsumsi.get(i).getHargaSatuan());
+                stmt.setInt(5, allKonsumsi.get(i).getJumlah());
+                stmt.executeUpdate();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+    public static ArrayList<Pembayaran> getAllPembayaran(){
+        ArrayList<Pembayaran> allPembayaran = new ArrayList<>();
+        conn.connect();
+        String query = "SELECT * FROM pembayaran";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                Pembayaran pembayaran = new Pembayaran();
+                pembayaran.setMetodePembayaran(rs.getString("metodePembayaran"));
+                pembayaran.setCashback(rs.getInt("cashback"));
+                pembayaran.setDiskon(rs.getInt("diskon"));
+                allPembayaran.add(pembayaran);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return allPembayaran;
     }
 }

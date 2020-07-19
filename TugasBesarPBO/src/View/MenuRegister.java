@@ -26,11 +26,10 @@ public class MenuRegister implements ActionListener{
     JTextField textUsername, textEmail, textNamaLengkap, textTelepon, textKota, textAlamat, textKTP;
     JPasswordField textPassword, textPasswordRe;
     JButton submit, cancel, back;
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Menu Register");
     public MenuRegister(){
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
-        frame.setTitle("Register");
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         

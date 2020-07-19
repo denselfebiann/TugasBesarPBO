@@ -15,17 +15,17 @@ import java.util.Date;
  *
  * @author MelvinS
  */
-public class extPesanan extends Pesanan{
+public class ExtPesanan extends Pesanan{
     private Kereta detailKereta;
     private String gerbong;
     private String kursiDipilih;
     private ArrayList<Konsumsi> konsumsi;
     
-    public extPesanan(){
+    public ExtPesanan(){
         
     }
-    public extPesanan(int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
-        super(orderID, scheduleID, departureDipilih, tanggal, banyakKursiDipilih, hargaTiket, totalHargaTiket, totalHarga);
+    public ExtPesanan(int totalHargaKonsumsi, int orderID, int scheduleID, String departureDipilih, String tanggal, int banyakKursiDipilih, int hargaTiket, int totalHargaTiket, int totalHarga) {
+        super(totalHargaKonsumsi, orderID, scheduleID, departureDipilih, tanggal, banyakKursiDipilih, hargaTiket, totalHargaTiket, totalHarga);
     }
 
     public Kereta getDetailKereta() {

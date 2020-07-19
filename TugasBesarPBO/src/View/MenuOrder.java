@@ -8,11 +8,13 @@ package View;
 import Controller.DatabaseControl;
 import Controller.Garis;
 import Controller.KeretaManager;
+import Controller.PesananManager;
 import Controller.UserManager;
 import Model.Kereta;
 import Model.KeretaJadwal;
 import Model.Pesanan;
-//import com.toedter.calendar.JDateChooser;
+import Model.ExtPesanan;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -31,11 +33,11 @@ import javax.swing.JPanel;
  *
  * @author dense
  */
-public class MenuOrder implements ActionListener{
+public class MenuOrder{
     JLabel labelRute, judul, note, labelTanggal, labelJam, labelDeparture;
     JComboBox rute, tanggal, jam, departure;
-    JButton submit;
-    JFrame frame = new JFrame();
+    JButton submit, back;
+    JFrame frame = new JFrame("Menu Order");
     DatabaseControl controller = new DatabaseControl();
     ArrayList<Kereta> Allkereta = controller.getAllKereta();
 
@@ -43,15 +45,11 @@ public class MenuOrder implements ActionListener{
     String[][] isiTanggal;
     String[] isiJam;
     String[] isiDeparture;
+    Kereta kereta = null;
     public MenuOrder(){
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        int sizeJadwal = 0;
-        for(int i = 0; i < Allkereta.size(); i++){
-            sizeJadwal += Allkereta.get(i).getJadwal().size();
-        }
-        isiRute = new String[sizeJadwal];
         isiJam = new String[1];
         isiTanggal = new String[2][30];
         boolean ketemu = false, sama = false;
@@ -81,14 +79,8 @@ public class MenuOrder implements ActionListener{
                 isiDeparture[i] = Allkereta.get(i).getDeparture();
             }
         }
-        for(int i = 0; i < Allkereta.size(); i++){
-            Kereta train = Allkereta.get(i);
-            for(int j = 0; j < train.getJadwal().size(); j++){
-                isiRute[j] = (train.getJadwal().get(j).getLokasiDepart() + "-" + train.getJadwal().get(j).getLokasiArrive());
-            }
-        }
         Date berikut = new Date();
-        SimpleDateFormat dn = new SimpleDateFormat("dd-MM-yy");
+        SimpleDateFormat dn = new SimpleDateFormat("dd-MM-yyyy");
         String date = dn.format(berikut);
         int hari = Integer.parseInt(date.substring(0, 2));
         int bulan = Integer.parseInt(date.substring(3, 5));
@@ -138,34 +130,124 @@ public class MenuOrder implements ActionListener{
         }
         
         judul = new JLabel("Menu Order");
-        judul.setBounds(300, 0, 200, 25);
-        judul.setFont(new Font(judul.getFont().getName(), judul.getFont().getStyle(), 28));
         labelDeparture = new JLabel("Departure");
-        labelDeparture.setBounds(150, 40, 250, 25);
-        labelDeparture.setFont(new Font(labelDeparture.getFont().getName(), labelDeparture.getFont().getStyle(), 22));
         labelRute = new JLabel("Rute");
-        labelRute.setBounds(150, 80, 250, 25);
-        labelRute.setFont(new Font(labelRute.getFont().getName(), labelRute.getFont().getStyle(), 22));
         labelTanggal = new JLabel("Tanggal");
-        labelTanggal.setBounds(150, 120, 250, 25);
-        labelTanggal.setFont(new Font(labelTanggal.getFont().getName(), labelTanggal.getFont().getStyle(), 22));
         labelJam = new JLabel("Jadwal Keberangkatan");
+        
+        judul.setBounds(300, 0, 200, 25);
+        labelDeparture.setBounds(150, 40, 250, 25);
+        labelRute.setBounds(150, 80, 250, 25);
+        labelTanggal.setBounds(150, 120, 250, 25);
         labelJam.setBounds(150, 160, 250, 25);
+        
+        judul.setFont(new Font(judul.getFont().getName(), judul.getFont().getStyle(), 28));
+        labelDeparture.setFont(new Font(labelDeparture.getFont().getName(), labelDeparture.getFont().getStyle(), 22));
+        labelRute.setFont(new Font(labelRute.getFont().getName(), labelRute.getFont().getStyle(), 22));
+        labelTanggal.setFont(new Font(labelTanggal.getFont().getName(), labelTanggal.getFont().getStyle(), 22));
         labelJam.setFont(new Font(labelJam.getFont().getName(), labelJam.getFont().getStyle(), 22));
         
         departure = new JComboBox(isiDeparture);
-        departure.setBounds(400, 40, 150, 25);
-        departure.addActionListener(this);
         rute = new JComboBox();
-        rute.setBounds(400, 80, 150, 25);
-        rute.addActionListener(this);
         tanggal = new JComboBox();
-        tanggal.setBounds(400, 120, 150, 25);
         jam = new JComboBox();
-        jam.setBounds(400, 160, 150, 25);
+        
+        departure.setBounds(400, 40, 180, 25);
+        rute.setBounds(400, 80, 180, 25);
+        tanggal.setBounds(400, 120, 180, 25);
+        jam.setBounds(400, 160, 180, 25);
+        
+        departure.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                rute.removeAllItems();
+                for(int i = 0; i < Allkereta.size(); i++){
+                    if(departure.getSelectedItem().equals(Allkereta.get(i).getDeparture())){
+                        kereta = Allkereta.get(i);
+                        for(int j = 0; j < kereta.getJadwal().size(); j++){
+                            if(kereta.getIdKereta() == kereta.getJadwal().get(j).getKeretaID()){
+                                rute.addItem(kereta.getJadwal().get(j).getLokasiDepart() + "-" + kereta.getJadwal().get(j).getLokasiArrive());
+                            }
+                        }
+                    }
+                }
+            }
+            
+        });
+        rute.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                jam.removeAllItems();
+                tanggal.removeAllItems();
+        
+                try{
+                    Object rut = rute.getSelectedItem();
+                    String str = rut.toString();
+                    if(rute.getSelectedIndex() % 2 == 0){
+                        for(int i = 0; i < 15; i++){
+                            tanggal.addItem(isiTanggal[0][i]);
+                        }
+                    }else{
+                        for(int i = 0; i < 15; i++){
+                           tanggal.addItem(isiTanggal[1][i]);
+                        }
+                    }
+        
+                    KeretaJadwal jadwal = new KeretaJadwal();
+        
+                    for(int i = 0; i < str.length(); i++){
+                        String s = str.substring(i, i+1);
+                        if(s.equals("-")){
+                            String cek1 = str.substring(0, i);
+                            String cek2 = str.substring(i+1, str.length());
+                            jadwal = controller.getJadwal(cek1, cek2);
+                            kereta = controller.getKereta(jadwal.getKeretaID(), jadwal.getDeparture());
+                            KeretaManager.getInstance().setKereta(kereta);
+                            String j = jadwal.getJamDepart() + "-" + jadwal.getJamArrive();
+                            jam.addItem(j);
+                        }
+                    }
+                }catch(Exception a){
+                }
+            }
+        });
         submit = new JButton("Submit");
-        submit.setBounds(150, 200, 400, 25);
-        submit.addActionListener(this);
+        submit.setBounds(150, 200, 430, 25);
+        submit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                switch(e.getActionCommand()){
+                    case "Submit":
+                        Pesanan pesanan = new ExtPesanan();
+                        pesanan.setDepartureDipilih(departure.getSelectedItem().toString());
+                        for(int i = 0; i < rute.getSelectedItem().toString().length(); i++){
+                            String rut = rute.getSelectedItem().toString();
+                            String s = rut.substring(i, i+1);
+                            if(s.equals("-")){
+                                String cek1 = rut.substring(0, i);
+                                String cek2 = rut.substring(i+1, rut.length());
+                                KeretaJadwal jadwal = controller.getJadwal(cek1, cek2);
+                                pesanan.setScheduleID(jadwal.getScheduleID());
+                                pesanan.setHargaTiket(jadwal.getHargaTiket());
+                                pesanan.setTanggal(tanggal.getSelectedItem().toString());
+                            }
+                        }
+                        frame.setVisible(false);
+                        PesananManager.getInstance().setPesanan(pesanan);
+                        new PemilihanKursi();
+                        break;
+                }       
+            }
+        });
+        back = new JButton("Back");
+        back.setBounds(250, 250, 230, 25);
+        back.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch(e.getActionCommand()){
+                    case "Back":
+                        new MenuMember();
+                        break;
+                }
+            }
+        });
         Garis garis = new Garis();
 
         frame.add(judul);
@@ -178,71 +260,10 @@ public class MenuOrder implements ActionListener{
         frame.add(tanggal);
         frame.add(jam);
         frame.add(submit);
+        frame.add(back);
         frame.add(garis);
         //frame.setLayout(null);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        rute.removeAllItems();
-        jam.removeAllItems();
-        tanggal.removeAllItems();
-        Kereta kereta = null;
-        for(int i = 0; i < Allkereta.size(); i++){
-            if(departure.getSelectedItem().equals(Allkereta.get(i).getDeparture())){
-                kereta = Allkereta.get(i);
-                for(int j = 0; j < kereta.getJadwal().size(); j++){
-                    rute.addItem(kereta.getJadwal().get(j).getLokasiDepart() + "-" + kereta.getJadwal().get(j).getLokasiArrive());
-                }
-            }
-        }
-        try{
-            Object rut = rute.getSelectedItem();
-            String str = rut.toString();
-            if(rute.getSelectedIndex() % 2 == 0){
-                for(int i = 0; i < 15; i++){
-                    tanggal.addItem(isiTanggal[0][i]);
-                }
-            }else{
-                for(int i = 0; i < 15; i++){
-                    tanggal.addItem(isiTanggal[1][i]);
-                }
-            }
-            KeretaJadwal jadwal = new KeretaJadwal();
-            for(int i = 0; i < str.length(); i++){
-                String s = str.substring(i, i+1);
-                if(s.equals("-")){
-                    String cek1 = str.substring(0, i);
-                    String cek2 = str.substring(i+1, str.length());
-                    jadwal = controller.getJadwal(cek1, cek2);
-                    kereta = controller.getKereta(jadwal.getKeretaID(), jadwal.getDeparture());
-                    String j = jadwal.getJamDepart() + "-" + jadwal.getJamArrive();
-                    jam.addItem(j);
-                }
-            }
-        }catch(Exception a){
-        }
-        
-        switch(e.getActionCommand()){
-            case "Submit":
-                KeretaManager.getInstance().setKereta(kereta);
-                Pesanan pesanan = new Pesanan();
-                pesanan.setDepartureDipilih(departure.getSelectedItem().toString());
-                for(int i = 0; i < rute.getSelectedItem().toString().length(); i++){
-                    String rute = this.rute.getSelectedItem().toString();
-                    String s = rute.substring(i, i+1);
-                    if(s.equals("-")){
-                        String cek1 = rute.substring(0, i);
-                        String cek2 = rute.substring(i+1, rute.length());
-                        KeretaJadwal jadwal = controller.getJadwal(cek1, cek2);
-                        pesanan.setScheduleID(jadwal.getScheduleID());
-                    }
-                }
-                frame.setVisible(false);
-                new PemilihanKursi(pesanan);
-                break;
-        }
     }
 }
