@@ -40,7 +40,7 @@ public class LoginController {
     }
     
     public void registerMember(String username, String password, String passwordRe, String email, String namaLengkap, String telepon, String kota, String alamat, String KTP){
-        
+        System.out.println("pv registerMember");
         if(password.equals(passwordRe)){
             if(DatabaseControl.cekRegister(KTP)){
                 Users user = new Users();
@@ -52,8 +52,10 @@ public class LoginController {
                 user.setKota(kota);
                 user.setAlamat(alamat);
                 user.setKTP(KTP);
-
+                
                 DatabaseControl.insertNewUser(user);
+                
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Nomor KTP sudah terdaftar!!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }

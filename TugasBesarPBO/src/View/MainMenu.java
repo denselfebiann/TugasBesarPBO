@@ -48,6 +48,7 @@ public class MainMenu implements ActionListener{
                 break;
             case "Register":
                 frame.setVisible(false);
+                MenuRegister register = new MenuRegister();
                 break;
         }
     }

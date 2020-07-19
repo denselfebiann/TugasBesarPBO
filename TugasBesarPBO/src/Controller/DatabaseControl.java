@@ -72,7 +72,7 @@ public class DatabaseControl {
     
     public static boolean insertNewUser(Users user) {
         conn.connect();
-        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.con.prepareStatement(query);
             stmt.setInt(1, 0);
@@ -85,6 +85,7 @@ public class DatabaseControl {
             stmt.setString(8, user.getEmail());
             stmt.setString(9, user.getKTP());
             stmt.setInt(10, user.getTipeUser());
+            stmt.setInt(11, 0);
             stmt.executeUpdate();
             return (true);
         } catch (SQLException e) {
@@ -128,6 +129,7 @@ public class DatabaseControl {
             return (false);
         }
     }
+    
     public static boolean cekRegister(String KTP) {
         conn.connect();
         String query = "SELECT * FROM User WHERE KTP='" + KTP + "'";
@@ -142,6 +144,7 @@ public class DatabaseControl {
         }
         return true;
     }
+    
     public static ArrayList<Kereta> getAllKereta(){
         ArrayList<Kereta> allKereta = new ArrayList<>();
         conn.connect();
@@ -165,6 +168,7 @@ public class DatabaseControl {
         }
         return (allKereta);
     }
+    
     public static Kereta getKereta(int idKereta, String departure){
         Kereta kereta = new Kereta();
         conn.connect();
@@ -186,6 +190,7 @@ public class DatabaseControl {
         }
         return kereta;
     }
+    
     public static ArrayList<KeretaJadwal>getAllJadwal(String departure){
         ArrayList<KeretaJadwal> allJadwal = new ArrayList<>();
         conn.connect();
@@ -209,6 +214,7 @@ public class DatabaseControl {
         }
         return allJadwal;
     }
+    
     public static KeretaJadwal getJadwal(String ruteAwal, String ruteAkhir){
         conn.connect();
         KeretaJadwal jadwal = new KeretaJadwal();
@@ -230,6 +236,103 @@ public class DatabaseControl {
         }
         return jadwal;
     }
+    
+    public static KeretaJadwal getAllPesanan(String ruteAwal, String ruteAkhir){
+        conn.connect();
+        KeretaJadwal jadwal = new KeretaJadwal();
+        String query = "SELECT * FROM jadwalruteharga'";
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                jadwal.setScheduleID(rs.getInt("scheduleID"));
+                jadwal.setKeretaID(rs.getInt("keretaID"));
+                jadwal.setJamDepart(rs.getString("jamBerangkat"));
+                jadwal.setJamArrive(rs.getString("JamSampai"));
+                jadwal.setLokasiDepart(rs.getString("ruteAwal"));
+                jadwal.setLokasiArrive(rs.getString("ruteAkhir"));
+                jadwal.setDeparture(rs.getString("departure"));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return jadwal;
+    }
+    
+    public ArrayList<Orders> getPesanan(int userID){
+        conn.connect();
+        ArrayList<Orders> listOrders = new ArrayList<>();
+        String query = "SELECT * FROM pesanan WHERE userID='" + userID + "'";
+        
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                Orders orders = new Orders();
+                
+                orders.setOrderID(rs.getString("orderID"));
+                orders.setDeparture(rs.getString("departureDipilih"));
+                orders.setTanggal(rs.getString("tanggal"));
+                orders.setKursi(rs.getString("kursi"));
+                orders.setHargaTiket(rs.getString("hargaTiket"));
+                orders.setLangganan(rs.getString("langganan"));
+                orders.setKonsumsi(rs.getString("konsumsi"));
+                orders.setTotalHarga(rs.getString("totalHarga"));
+                
+                String scheduleID = rs.getString("scheduleID");
+                
+                query="SELECT * FROM jadwalRuteHarga WHERE scheduleID='" + scheduleID + "'";
+                try{
+                    stmt = conn.con.createStatement();
+                    rs = stmt.executeQuery(query);
+                    
+                    while(rs.next()){
+                        orders.setArrival(rs.getString("ruteAkhir"));
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+//                orders.setArrival(rs.getString("arrivalDipilih"));
+
+                listOrders.add(orders);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listOrders;
+    }
+    
+    public ArrayList<Orders> getAllPesanan(){
+        conn.connect();
+        ArrayList<Orders> listOrders = new ArrayList<>();
+        String query = "SELECT * FROM pesanan";
+        
+        try{
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            Orders orders = new Orders();
+            
+            orders.setOrderID(rs.getString("orderID"));
+            orders.setDeparture(rs.getString("departureDipilih"));
+            orders.setArrival(rs.getString("arrivalDipilih"));
+            orders.setTanggal(rs.getString("tanggal"));
+            orders.setKursi(rs.getString("kursi"));
+            orders.setHargaTiket(rs.getString("hargaTiket"));
+            orders.setLangganan(rs.getString("langganan"));
+            orders.setKonsumsi(rs.getString("konsumsi"));
+            orders.setTotalHarga(rs.getString("totalHarga"));
+            
+            listOrders.add(orders);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return listOrders;
+    }
+    
     public static boolean insertNewPesanan(int userID, int scheduleID, String tanggal, String kursi, int hargaTiket, String langganan, String konsumsi, int hargaKonsumsi, int jumlahKonsumsi, int totalHargaTiket, int totalHargaKonsumsi, int totalHarga){
         conn.connect();
         String query = "INSERT INTO user VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

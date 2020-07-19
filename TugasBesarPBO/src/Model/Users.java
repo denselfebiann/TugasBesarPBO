@@ -106,10 +106,13 @@ public class Users {
         DatabaseControl controller = new DatabaseControl();
         Users user = controller.getUser(username);
         String passwordConvert = Convert.stringToMD5(password);
+        System.out.println("c");
         if((user.getUsername().equals(username)) && (passwordConvert.equals(user.getPassword()))){
             UserManager.getInstance().setUser(user);
+            System.out.println("a");
             return true;
         }else{
+            System.out.println("b");
             return false;
         }
     }

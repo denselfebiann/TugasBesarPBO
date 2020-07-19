@@ -6,6 +6,8 @@
 package View;
 
 import Controller.LoginController;
+import Controller.UserManager;
+import Model.Users;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -114,7 +116,9 @@ public class MenuRegister implements ActionListener{
         frame.setLayout(null);
         frame.setVisible(true);
     }
-    
+    public static void main(String[] args) {
+        new MenuRegister();
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         LoginController control = new LoginController();
@@ -129,6 +133,12 @@ public class MenuRegister implements ActionListener{
                 String kota = textKota.getText();
                 String alamat = textAlamat.getText();
                 String KTP = textKTP.getText();
+                
+                Users users = new Users();
+                users.setUsername(username);
+                users.setPassword(password);
+                
+                UserManager.getInstance().setUser(users);
                 
                 control.registerMember(username, password, passwordRe, email, namaLengkap, telepon, kota, alamat, KTP);
                 frame.setVisible(false);

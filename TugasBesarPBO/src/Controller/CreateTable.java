@@ -26,7 +26,6 @@ public class CreateTable{
         String sql = "";
         try{
             stm = (Statement) conn.con.createStatement();
-            
             sql = "CREATE TABLE User (" +
 "                   userID INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
 "                   username VARCHAR(100) NOT NULL," +
@@ -37,14 +36,14 @@ public class CreateTable{
 "                   telepon VARCHAR(100) NOT NULL," +
 "                   email VARCHAR(255) NOT NULL," +
 "                   KTP VARCHAR(255) NOT NULL," +
+"                   pointLangganan INT NOT NULL," +
 "                   tipeUser INT NOT NULL" +
 "                 )";
             stm.execute(sql);
-            
             sql = "CREATE TABLE kereta(" + 
 "                   keretaID INT NOT NULL," +
 "                   gerbong INT NOT NULL," + 
-"                   jumlahKursi INT NOT NULL" + 
+"                   jumlahKursi INT NOT NULL," + 
 "                   departure VARCHAR(100) NOT NULL" +
 "                 )";
             stm.execute(sql);
@@ -54,7 +53,7 @@ public class CreateTable{
 "                   keretaID INT NOT NULL," +
 "                   ruteAwal VARCHAR(100) NOT NULL," +
 "                   ruteAkhir VARCHAR(100) NOT NULL," +
-"                   jamBerangkat VARCHAR(100) NOT ULL," +
+"                   jamBerangkat VARCHAR(100) NOT NULL," +
 "                   jamSampai VARCHAR(100) NOT NULL," +
 "                   HargaTiket INT NOT NULL" +
 "                 )";
@@ -102,7 +101,7 @@ public class CreateTable{
             stm.close();
             conn.disconnect();
         }catch (Exception e){
-            System.err.println("Connection Failure" + e.getMessage());
+            System.err.println("Connection Failure: " + e.getMessage());
         }
     }
     public static void main(String[] args) {
