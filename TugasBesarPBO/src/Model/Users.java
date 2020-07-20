@@ -27,7 +27,23 @@ public class Users {
     private String kota;
     private String KTP;
     private int tipeUser;
+    private int pointLangganan = 0;
+    private int giftRide = 1;
 
+    public int getGiftRide() {
+        return giftRide;
+    }
+
+    public void setGiftRide(int giftRide) {
+        this.giftRide = giftRide;
+    }
+
+    public int getPointLangganan() {
+        return pointLangganan;
+    }
+    public void setPointLangganan(int pointLangganan) {
+        this.pointLangganan = pointLangganan;
+    }
     public String getKota(){
         return kota;
     }
@@ -119,5 +135,15 @@ public class Users {
             cek = false;
         }
         return cek;
+    }
+    
+    public void updatePointDatabase(){
+        DatabaseControl controller = new DatabaseControl();
+        Users user = controller.getUser(username);
+        controller.updateMemberPoint(user.idUser, user.pointLangganan);
+        controller.updateMemberPoint(user.idUser, user.giftRide);
+    }
+    public void updateVoucherDatabase(){
+        
     }
 }

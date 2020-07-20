@@ -17,7 +17,7 @@ import javax.swing.*;
  */
 public class MainMenu implements ActionListener{
     private JButton login, register;
-    JFrame frame = new JFrame();
+    JFrame frame = new JFrame("Main Menu");
     public MainMenu(){
         frame.setSize(300, 400);
         frame.setLocationRelativeTo(null);
@@ -48,6 +48,7 @@ public class MainMenu implements ActionListener{
                 break;
             case "Register":
                 frame.setVisible(false);
+                MenuRegister register = new MenuRegister();
                 break;
         }
     }

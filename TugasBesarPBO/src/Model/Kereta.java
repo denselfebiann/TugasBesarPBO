@@ -16,7 +16,7 @@ public class Kereta {
     private String departure;
     private int gerbong;
     private int jumlahKursi;
-    private boolean[] kursiKosong;
+    private boolean[] kursiKosong = new boolean[jumlahKursi];
     private ArrayList<KeretaJadwal> jadwal;
 
     public int getIdKereta(){
