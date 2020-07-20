@@ -8,8 +8,6 @@ package View;
 import Controller.DatabaseControl;
 import Controller.KeretaManager;
 import Controller.PesananManager;
-import Controller.cekLogin;
-
 import Model.Kereta;
 import Model.Pesanan;
 import Model.ExtPesanan;
