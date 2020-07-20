@@ -405,7 +405,7 @@ public class DatabaseControl {
         
         return listOrders;
     }
-    public ArrayList<Orders> getAllPesanan(int userID){
+    public ArrayList<Orders> getAllPesanan(){
         conn.connect();
         ArrayList<Orders> listOrders = new ArrayList<>();
         String query = "SELECT * FROM pesanan ";
